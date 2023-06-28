@@ -13,7 +13,7 @@ class LessonRepositoryImpl implements LessonRepository {
   });
 
   @override
-  Future<List<Lesson>> getLessonsByCourseID(int id_lesson) async {
+  Future<List<Lesson>> getLessonsByCourseID(String id_lesson) async {
     //print('Repository');
     return await lessonRemoteDataSource.getLessonsByCourseID(id_lesson);
   }

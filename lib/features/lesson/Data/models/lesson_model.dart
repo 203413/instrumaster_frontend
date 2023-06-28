@@ -4,15 +4,15 @@ import 'package:instrumaster_v1/features/lesson/Domain/entities/lesson.dart';
 
 class LessonModel extends Lesson {
   LessonModel({
-    required int id,
-    required int id_lesson,
+    required String id,
+    required String id_course,
     required String lesson_name,
     required String level,
     required String star,
     required String lesson_icon,
   }) : super(
             id: id,
-            id_lesson: id_lesson,
+            id_course: id_course,
             lesson_name: lesson_name,
             level: level,
             star: star,
@@ -21,17 +21,17 @@ class LessonModel extends Lesson {
   factory LessonModel.fromJson(Map<String, dynamic> json) {
     return LessonModel(
         id: json['id'],
-        id_lesson: json['id_lesson'],
+        id_course: json['id_course'],
         lesson_name: json['lesson_name'],
         level: json['level'],
-        star: json['star'],
+        star: json['stars'],
         lesson_icon: json['lesson_icon']);
   }
 
   factory LessonModel.fromEntity(Lesson lesson) {
     return LessonModel(
       id: lesson.id,
-      id_lesson: lesson.id_lesson,
+      id_course: lesson.id_course,
       lesson_name: lesson.lesson_name,
       level: lesson.level,
       star: lesson.star,

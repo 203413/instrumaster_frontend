@@ -4,7 +4,7 @@ part of 'lesson_bloc.dart';
 abstract class LessonEvent {}
 
 class GetLessonsByCourseID extends LessonEvent {
-  final int id_lesson;
+  final String id_lesson;
 
   GetLessonsByCourseID({required this.id_lesson});
 }

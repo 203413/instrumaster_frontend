@@ -1,6 +1,6 @@
 class Lesson {
-  final int id;
-  final int id_lesson;
+  final String id;
+  final String id_course;
   final String lesson_name;
   final String level;
   final String star;
@@ -8,7 +8,7 @@ class Lesson {
 
   Lesson({
     required this.id,
-    required this.id_lesson,
+    required this.id_course,
     required this.lesson_name,
     required this.level,
     required this.star,

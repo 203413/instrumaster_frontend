@@ -6,7 +6,7 @@ class GetLessonByCIdUsecase {
 
   GetLessonByCIdUsecase(this.lessonRepository);
 
-  Future<List<Lesson>> execute(int id_lesson) async {
+  Future<List<Lesson>> execute(String id_lesson) async {
     return await lessonRepository.getLessonsByCourseID(id_lesson);
   }
 }

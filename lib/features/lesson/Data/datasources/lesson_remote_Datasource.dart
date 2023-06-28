@@ -6,16 +6,14 @@ import '../models/lesson_model.dart';
 
 abstract class LessonRemoteDataSource {
   // https://jsonplaceholder.typicode.com/posts
-  Future<List<Lesson>> getLessonsByCourseID(int id_lesson);
+  Future<List<Lesson>> getLessonsByCourseID(String id_lesson);
 }
 
 class LessonRemoteDataSourceImp implements LessonRemoteDataSource {
   @override
-  Future<List<LessonModel>> getLessonsByCourseID(int id_lesson) async {
+  Future<List<LessonModel>> getLessonsByCourseID(String id_lesson) async {
     //print('DataSource');
-    var url = Uri.https(
-        'c8f7-2806-262-3404-a3-d05-ea1f-a256-8683.ngrok-free.app',
-        '/lesson/Courseid/$id_lesson');
+    var url = Uri.http('192.168.122.1:3001', '/lesson/Courseid/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -26,16 +24,23 @@ class LessonRemoteDataSourceImp implements LessonRemoteDataSource {
       var results = jsonResponse['data'];
       print(results);
       resultlist.addAll(List<Map<String, dynamic>>.from(results));
+      print('PRUEBA....................... 1');
       List<LessonModel> CoursesList = resultlist.map((result) {
+        print(result['id']);
+        print(result['d_course']);
+        print(result['lesson_name']);
+        print(result['level']);
+        print(result['stars']);
+        print(result['lesson_icon']);
         return LessonModel(
-            id: result['id'],
-            id_lesson: result['id_lesson'],
-            lesson_name: result['lesson_name'],
-            level: result['level'],
-            star: result['star'],
-            lesson_icon: result['lesson_icon']);
+            id: result['id'].toString(),
+            id_course: result['id_course'].toString(),
+            lesson_name: result['lesson_name'].toString(),
+            level: result['level'].toString(),
+            star: result['stars'].toString(),
+            lesson_icon: result['lesson_icon'].toString());
       }).toList();
-
+      print('PRUEBA....................... 2');
       return CoursesList;
     } else {
       throw Exception();

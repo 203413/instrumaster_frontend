@@ -46,7 +46,7 @@ class _CoursesPageState extends State<CoursesPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    LessonsPage(arg: course.id)));
+                                    LessonsPage(arg: course.id.toString())));
                       },
                       child: ListTile(
                         leading: Text(course.id.toString()),

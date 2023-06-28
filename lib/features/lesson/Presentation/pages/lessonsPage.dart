@@ -6,7 +6,7 @@ import '../../Domain/usecases/get_lessonsbycid_usecase.dart';
 import '../widgets/bnavigationbar.dart';
 
 class LessonsPage extends StatefulWidget {
-  final int arg;
+  final String arg;
   const LessonsPage({required this.arg});
 
   @override
@@ -35,6 +35,8 @@ class _LessonsPageState extends State<LessonsPage> {
             child: CircularProgressIndicator(),
           );
         } else if (state is Loaded) {
+          print('...............................');
+          print(state.lessons);
           return SingleChildScrollView(
             child: Column(
                 children: state.lessons.map((course) {
