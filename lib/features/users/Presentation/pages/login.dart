@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instrumaster_v1/features/lesson/Presentation/pages/lessonsPage.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/register.dart';
 import 'package:line_icons/line_icons.dart';
+
+import '../../../course/Presentation/pages/courses_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -113,7 +116,13 @@ class _LoginPageState extends State<LoginPage> {
                               child: SizedBox(
                                 width: 150,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CoursesPage()));
+                                  },
                                   child: Text(
                                     'Login',
                                     style: TextStyle(fontSize: 24),
