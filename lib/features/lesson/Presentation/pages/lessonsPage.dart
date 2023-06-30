@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instrumaster_v1/features/lesson/Domain/entities/lesson.dart';
 import 'package:instrumaster_v1/features/lesson/Presentation/bloc/lesson_bloc.dart';
-import '../../Domain/usecases/get_lessonsbycid_usecase.dart';
+import '../../../exercises/Presentation/pages/exercises_page.dart';
 import '../widgets/bnavigationbar.dart';
 
 class LessonsPage extends StatefulWidget {
@@ -39,7 +38,7 @@ class _LessonsPageState extends State<LessonsPage> {
           print(state.lessons);
           return SingleChildScrollView(
             child: Column(
-                children: state.lessons.map((course) {
+                children: state.lessons.map((lesson) {
               return Container(
                 margin: EdgeInsets.all(5),
                 padding: EdgeInsets.all(5),
@@ -52,11 +51,11 @@ class _LessonsPageState extends State<LessonsPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    LessonsPage(arg: course.id)));
+                                    ExercisesPage(arg: lesson.id)));
                       },
                       child: ListTile(
-                        leading: Text(course.id.toString()),
-                        title: Text(course.lesson_name),
+                        leading: Text(lesson.id.toString()),
+                        title: Text(lesson.lesson_name),
                         subtitle: Text('hola'),
                       ),
                     ),

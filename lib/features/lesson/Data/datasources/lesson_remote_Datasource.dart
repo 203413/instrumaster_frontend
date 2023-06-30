@@ -26,18 +26,12 @@ class LessonRemoteDataSourceImp implements LessonRemoteDataSource {
       resultlist.addAll(List<Map<String, dynamic>>.from(results));
       print('PRUEBA....................... 1');
       List<LessonModel> CoursesList = resultlist.map((result) {
-        print(result['id']);
-        print(result['d_course']);
-        print(result['lesson_name']);
-        print(result['level']);
-        print(result['stars']);
-        print(result['lesson_icon']);
         return LessonModel(
             id: result['id'].toString(),
             id_course: result['id_course'].toString(),
             lesson_name: result['lesson_name'].toString(),
             level: result['level'].toString(),
-            star: result['stars'].toString(),
+            stars: result['stars'].toString(),
             lesson_icon: result['lesson_icon'].toString());
       }).toList();
       print('PRUEBA....................... 2');

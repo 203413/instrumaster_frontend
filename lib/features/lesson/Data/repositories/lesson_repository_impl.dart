@@ -1,5 +1,3 @@
-import 'package:instrumaster_v1/features/course/Domain/entities/course.dart';
-import 'package:instrumaster_v1/features/course/Domain/repositories/course_repositoy.dart';
 import 'package:instrumaster_v1/features/lesson/Domain/entities/lesson.dart';
 import '../../Domain/repositories/lesson_repository.dart';
 

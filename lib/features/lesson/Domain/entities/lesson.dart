@@ -3,7 +3,7 @@ class Lesson {
   final String id_course;
   final String lesson_name;
   final String level;
-  final String star;
+  final String stars;
   final String lesson_icon;
 
   Lesson({
@@ -11,7 +11,7 @@ class Lesson {
     required this.id_course,
     required this.lesson_name,
     required this.level,
-    required this.star,
+    required this.stars,
     required this.lesson_icon,
   });
 

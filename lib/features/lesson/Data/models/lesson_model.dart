@@ -8,14 +8,14 @@ class LessonModel extends Lesson {
     required String id_course,
     required String lesson_name,
     required String level,
-    required String star,
+    required String stars,
     required String lesson_icon,
   }) : super(
             id: id,
             id_course: id_course,
             lesson_name: lesson_name,
             level: level,
-            star: star,
+            stars: stars,
             lesson_icon: lesson_icon);
 
   factory LessonModel.fromJson(Map<String, dynamic> json) {
@@ -24,7 +24,7 @@ class LessonModel extends Lesson {
         id_course: json['id_course'],
         lesson_name: json['lesson_name'],
         level: json['level'],
-        star: json['stars'],
+        stars: json['stars'],
         lesson_icon: json['lesson_icon']);
   }
 
@@ -34,7 +34,7 @@ class LessonModel extends Lesson {
       id_course: lesson.id_course,
       lesson_name: lesson.lesson_name,
       level: lesson.level,
-      star: lesson.star,
+      stars: lesson.stars,
       lesson_icon: lesson.lesson_icon,
     );
   }

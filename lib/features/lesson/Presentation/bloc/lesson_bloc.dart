@@ -1,11 +1,6 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-import 'package:instrumaster_v1/features/course/Domain/entities/course.dart';
 import 'package:instrumaster_v1/features/lesson/Domain/entities/lesson.dart';
 import 'package:meta/meta.dart';
-
-import '../../../course/Presentation/bloc/courses_bloc.dart';
 import '../../Domain/usecases/get_lessonsbycid_usecase.dart';
 
 part 'lesson_event.dart';

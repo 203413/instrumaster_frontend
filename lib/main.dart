@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instrumaster_v1/features/course/Presentation/bloc/courses_bloc.dart';
+import 'package:instrumaster_v1/features/exercises/Presentation/bloc/exercise_bloc.dart';
 import 'package:instrumaster_v1/features/lesson/Presentation/bloc/lesson_bloc.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/login.dart';
 import 'package:instrumaster_v1/usecaseconfig.dart';
@@ -25,6 +26,10 @@ class MyApp extends StatelessWidget {
           BlocProvider<LessonsBloc>(
               create: (BuildContext context) => LessonsBloc(
                   getLessonByCIdUsecase: usecaseConfig.getLessonByCIdUsecase!)),
+          BlocProvider<ExerciseBloc>(
+              create: (BuildContext context) => ExerciseBloc(
+                  getExerciseByLIdUsecase:
+                      usecaseConfig.getExerciseByLIdUsecase!)),
         ],
         child: const MaterialApp(
             debugShowCheckedModeBanner: false, home: LoginPage()));
