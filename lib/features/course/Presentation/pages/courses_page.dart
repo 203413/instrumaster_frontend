@@ -107,10 +107,21 @@ class _CoursesPageState extends State<CoursesPage> {
                                                         arg: course.id
                                                             .toString())));
                                       },
-                                      child: ListTile(
-                                        leading: Text(course.id.toString()),
-                                        title: Text(course.course_name),
-                                        subtitle: Text(course.course_logo),
+                                      // child: ListTile(
+                                      //   leading: Text(course.id.toString()),
+                                      //   title: Text(course.course_name),
+                                      //   subtitle: Text(course.course_logo),
+                                      // ),
+                                      child: Center(
+                                        child: Container(
+                                          width: 30.0,
+                                          height: 30.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors
+                                                .red, // Cambia el color del círculo si lo deseas
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     // Image.network(src)

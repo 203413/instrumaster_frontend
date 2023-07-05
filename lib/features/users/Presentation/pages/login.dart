@@ -5,6 +5,8 @@ import 'package:instrumaster_v1/features/users/Presentation/pages/register.dart'
 import 'package:line_icons/line_icons.dart';
 
 import '../../../course/Presentation/pages/courses_page.dart';
+import '../../../course/Presentation/pages/courses_page_test.dart';
+import '../../../course/Presentation/pages/test.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -120,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                CoursesPage()));
+                                                CoursesPagePage()));
                                   },
                                   child: Text(
                                     'Login',
