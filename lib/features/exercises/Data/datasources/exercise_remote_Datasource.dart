@@ -13,7 +13,7 @@ class ExerciseRemoteDataSourceImp implements ExerciseRemoteDataSource {
   @override
   Future<List<ExerciseModel>> getExerciseByLessonID(String id_lesson) async {
     //print('DataSource');
-    var url = Uri.http('192.168.122.1:3002', '/exercise/lessonId/$id_lesson');
+    var url = Uri.http('35.168.88.197', '/exercise/lessonId/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

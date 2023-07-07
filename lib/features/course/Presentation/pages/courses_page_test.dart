@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../../lesson/Presentation/pages/lessonsPage.dart';
+import 'package:instrumaster_v1/features/lesson/Presentation/pages/lessonPageTest.dart';
 import '../bloc/courses_bloc.dart';
 
 class CoursesPagePage extends StatefulWidget {
@@ -112,7 +111,7 @@ class _CoursesPagePageState extends State<CoursesPagePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      LessonsPage(
+                                                      LessonsPageTest(
                                                           arg: state
                                                               .courses[index].id
                                                               .toString())));

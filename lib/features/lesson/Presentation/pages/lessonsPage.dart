@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instrumaster_v1/features/lesson/Data/models/lesson_model.dart';
 import 'package:instrumaster_v1/features/lesson/Presentation/bloc/lesson_bloc.dart';
-import '../../../exercises/Presentation/pages/exercises_page.dart';
 import '../../Domain/entities/lesson.dart';
 import '../widgets/bnavigationbar.dart';
 
@@ -52,33 +50,6 @@ class _LessonsPageState extends State<LessonsPage> {
           print(advancedLessons[0].lesson_name);
 
           return SingleChildScrollView(
-              // child: Column(
-              //     children: state.lessons.map((lesson) {
-              //   return Container(
-              //     margin: EdgeInsets.all(5),
-              //     padding: EdgeInsets.all(5),
-              //     color: Colors.black12,
-              //     child: Column(
-              //       children: [
-              //         GestureDetector(
-              //           onTap: () {
-              //             Navigator.push(
-              //                 context,
-              //                 MaterialPageRoute(
-              //                     builder: (context) =>
-              //                         ExercisesPage(arg: lesson.id)));
-              //           },
-              //           child: ListTile(
-              //             leading: Text(lesson.id.toString()),
-              //             title: Text(lesson.lesson_name),
-              //             subtitle: Text('hola'),
-              //           ),
-              //         ),
-              //         // Image.network(src)
-              //       ],
-              //     ),
-              //   );
-              // }).toList()),
               child: Column(
             children: [
               Padding(
@@ -112,8 +83,9 @@ class _LessonsPageState extends State<LessonsPage> {
                 ),
               ),
               Container(
-                height: 200,
+                height: 400,
                 child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // Dos círculos por fila
                     ),
@@ -179,6 +151,7 @@ class _LessonsPageState extends State<LessonsPage> {
               Container(
                 height: 200,
                 child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // Dos círculos por fila
                     ),
@@ -244,6 +217,7 @@ class _LessonsPageState extends State<LessonsPage> {
               Container(
                 height: 200,
                 child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // Dos círculos por fila
                     ),

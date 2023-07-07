@@ -5,6 +5,7 @@ class Lesson {
   final String level;
   final String stars;
   final String lesson_icon;
+  final String difficult;
 
   Lesson({
     required this.id,
@@ -13,6 +14,7 @@ class Lesson {
     required this.level,
     required this.stars,
     required this.lesson_icon,
+    required this.difficult,
   });
 
   getLessonsByCourseID(int id_course) {}

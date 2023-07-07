@@ -13,7 +13,7 @@ class LessonRemoteDataSourceImp implements LessonRemoteDataSource {
   @override
   Future<List<LessonModel>> getLessonsByCourseID(String id_lesson) async {
     //print('DataSource');
-    var url = Uri.http('192.168.122.1:3001', '/lesson/Courseid/$id_lesson');
+    var url = Uri.http('35.168.88.197', '/lessons/Courseid/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -32,7 +32,8 @@ class LessonRemoteDataSourceImp implements LessonRemoteDataSource {
             lesson_name: result['lesson_name'].toString(),
             level: result['level'].toString(),
             stars: result['stars'].toString(),
-            lesson_icon: result['lesson_icon'].toString());
+            lesson_icon: result['lesson_icon'].toString(),
+            difficult: result['difficult'].toString());
       }).toList();
       print('PRUEBA....................... 2');
       return CoursesList;
