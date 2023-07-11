@@ -14,7 +14,7 @@ abstract class UserRemoteDataSource {
 }
 
 class UserRemoteDataSourceImp extends UserRemoteDataSource {
-  String ip = "0.0.0.0:8000";
+  String ip = "192.168.1.72:8000";
 
   @override
   Future<Authentication> login(String username, String password) async {
@@ -44,8 +44,6 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
     print("Entro exitosamente al metodo register");
     var url = Uri.http(ip, '/api/v0/register/');
     var body = {
-      'first_name': user.first_name,
-      'last_name': user.last_name,
       'username': user.username,
       'email': user.email,
       'password': user.password
@@ -76,14 +74,9 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
       );
       var user = User(
         id_user: responseJson['pk'],
-        first_name: responseJson['first_name'],
-        last_name: responseJson['last_name'],
         username: responseJson['username'],
         email: responseJson['email'],
         password: '',
-        id_profile: profileJson['id'],
-        url_image: profileJson['url_image'].toString(),
-        description: profileJson['description'].toString(),
       );
       return user;
     } catch (e) {

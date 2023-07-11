@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/login.dart';
 import 'package:line_icons/line_icons.dart';
+import '../widgets/userWidgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/user_bloc.dart';
+import 'package:instrumaster_v1/features/users/domain/entities/user.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({super.key});
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
@@ -167,16 +171,19 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: SizedBox(
                                 width: 150,
                                 child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    'Login',
-                                    style: TextStyle(fontSize: 24),
-                                  ),
+                                  onPressed: () {
+                                    register(_mail.text, _username.text,
+                                        _password.text, _passwordAgain.text);
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFFFDBE00),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30))),
+                                  child: const Text(
+                                    'Register',
+                                    style: TextStyle(fontSize: 24),
+                                  ),
                                 ),
                               ),
                             ),
@@ -216,5 +223,22 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  void register(
+      String mail, String username, String password, String password2) {
+    if (mail == '' && username == '' && password == '' && password2 == '') {
+      showAlertDialog("registro fallido", "Completa todos los campos", context);
+    } else {
+      var user = User(
+        id_user: 0,
+        username: username,
+        email: mail,
+        password: password,
+      );
+      BlocProvider.of<UserAuthentication>(context).add(Register(user: user));
+      showAlertDialog(
+          "Registrado con exito", "Por favor, inicia sesion ahora", context);
+    }
   }
 }
