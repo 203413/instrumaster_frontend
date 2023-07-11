@@ -12,8 +12,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController _firstName = TextEditingController();
-  final TextEditingController _lastName = TextEditingController();
   final TextEditingController _mail = TextEditingController();
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -24,9 +22,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xFFFDBE00),
+      backgroundColor: const Color(0xFFFDBE00),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/images/bg_image1.png'),
                 repeat: ImageRepeat.repeat)),
@@ -58,7 +56,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   // single scroll
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(20, 45, 20, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(20, 45, 20, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               SvgPicture.asset(
@@ -90,8 +89,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Username',
                             style: TextStyle(fontSize: 24),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
+                          TextField(
+                            controller: _username,
+                            decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 filled: true,
                                 fillColor: Color(
@@ -105,8 +105,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Email',
                             style: TextStyle(fontSize: 24),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
+                          TextField(
+                            controller: _mail,
+                            decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 filled: true,
                                 fillColor: Color(
@@ -120,8 +121,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Password',
                             style: TextStyle(fontSize: 24),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
+                          TextField(
+                            controller: _password,
+                            decoration: const InputDecoration(
                                 suffixIcon: Icon(LineIcons.eye),
                                 border: InputBorder.none,
                                 filled: true,
@@ -136,8 +138,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Confirm password',
                             style: TextStyle(fontSize: 24),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
+                          TextField(
+                            controller: _passwordAgain,
+                            decoration: const InputDecoration(
                                 suffixIcon: Icon(LineIcons.eye),
                                 border: InputBorder.none,
                                 filled: true,
@@ -154,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             controlAffinity: ListTileControlAffinity.leading,
                             title: RichText(
-                                text: TextSpan(
+                                text: const TextSpan(
                                     text: 'Términos y condiciones',
                                     style: TextStyle(color: Colors.black))),
                           ),
@@ -165,12 +168,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                 width: 150,
                                 child: ElevatedButton(
                                   onPressed: () {},
-                                  child: Text(
+                                  child: const Text(
                                     'Login',
                                     style: TextStyle(fontSize: 24),
                                   ),
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFFDBE00),
+                                      backgroundColor: const Color(0xFFFDBE00),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30))),
@@ -184,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: RichText(
                                 text: TextSpan(
                                     text: 'You have an account?',
-                                    style: TextStyle(color: Colors.black),
+                                    style: const TextStyle(color: Colors.black),
                                     children: [
                                       TextSpan(
                                           text: ' Sing-in',
@@ -194,9 +197,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          LoginPage()));
+                                                          const LoginPage()));
                                             },
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Color(0xFFFDBE00)))
                                     ]),
                               ),
