@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:instrumaster_v1/features/exercises/Domain/entities/Exercise.dart';
+import 'package:instrumaster_v1/features/exercises/Domain/entities/exercise.dart';
 import 'package:meta/meta.dart';
 import '../../Domain/usecases/get_exercisebylid_usecase.dart';
 

@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:instrumaster_v1/features/lesson/Presentation/bloc/lesson_bloc.dart';
+import 'package:instrumaster_v1/features/lesson/Presentation/pages/single_lesson_page.dart';
+import '../../../exercises/Presentation/pages/exercises_page.dart';
 import '../../Domain/entities/lesson.dart';
 import '../widgets/bnavigationbar.dart';
 
@@ -50,12 +53,53 @@ class _LessonsPageTestState extends State<LessonsPageTest> {
           List<Lesson> advancedLessons =
               allLessons.where((lesson) => lesson.difficult == "3").toList();
 
-          print(advancedLessons[0].lesson_name);
+          print("Hey" + intermediateLessons[0].lesson_name);
 
           return SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  AppBar(
+                    automaticallyImplyLeading: false,
+                    backgroundColor: Color(0xFFFDBE00),
+                    title: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/guitar.svg',
+                          width: 45,
+                        ), // Icono a la izquierda
+                        SizedBox(
+                            width:
+                                8.0), // Espacio entre el icono y el rectángulo
+                        SizedBox(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.black,
+                                  ), // Icono en el rectángulo
+                                  SizedBox(
+                                      width:
+                                          4.0), // Espacio entre el icono y el texto
+                                  Text(
+                                    '0',
+                                    style: TextStyle(color: Colors.black),
+                                  ), // Texto en el rectángulo
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   _lessonTittle('Principiante'),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -68,7 +112,13 @@ class _LessonsPageTestState extends State<LessonsPageTest> {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SingleLessonPage(
+                                        arg: beginnerLessons[index])));
+                          },
                           child: Column(
                             children: [
                               Center(
@@ -112,7 +162,13 @@ class _LessonsPageTestState extends State<LessonsPageTest> {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SingleLessonPage(
+                                        arg: intermediateLessons[index])));
+                          },
                           child: Column(
                             children: [
                               Center(
@@ -134,7 +190,7 @@ class _LessonsPageTestState extends State<LessonsPageTest> {
                                 ),
                               ),
                               Text(
-                                beginnerLessons[index].lesson_name,
+                                intermediateLessons[index].lesson_name,
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               )
@@ -156,7 +212,13 @@ class _LessonsPageTestState extends State<LessonsPageTest> {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SingleLessonPage(
+                                        arg: advancedLessons[index])));
+                          },
                           child: Column(
                             children: [
                               Center(
@@ -178,7 +240,7 @@ class _LessonsPageTestState extends State<LessonsPageTest> {
                                 ),
                               ),
                               Text(
-                                beginnerLessons[index].lesson_name,
+                                advancedLessons[index].lesson_name,
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               )
