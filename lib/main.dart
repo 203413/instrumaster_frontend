@@ -5,6 +5,7 @@ import 'package:instrumaster_v1/features/exercises/Presentation/bloc/exercise_bl
 import 'package:instrumaster_v1/features/lesson/Presentation/bloc/lesson_bloc.dart';
 import 'package:instrumaster_v1/features/users/Presentation/blocs/user_bloc.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/login.dart';
+import 'package:instrumaster_v1/features/users/Presentation/pages/passthrough.dart';
 import 'package:instrumaster_v1/usecaseconfig.dart';
 
 UsecaseConfig usecaseConfig = UsecaseConfig();
@@ -31,17 +32,17 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => ExerciseBloc(
                 getExerciseByLIdUsecase:
                     usecaseConfig.getExerciseByLIdUsecase!)),
-        BlocProvider<UserBloc>(
-            create: (BuildContext context) => UserBloc(
-                viewProfileUseCase: usecaseConfig.viewProfileUseCase!)),
-        BlocProvider(
+        BlocProvider<UserAuthentication>(
           create: (BuildContext context) => UserAuthentication(
               loginUseCase: usecaseConfig.loginUseCase!,
               registerUseCase: usecaseConfig.registerUseCase!),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: const Color(0xFF712F94),
+        ),
         home: LoginPage(),
       ),
     );

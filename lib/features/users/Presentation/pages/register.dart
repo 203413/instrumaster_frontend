@@ -172,8 +172,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                 width: 150,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    register(_mail.text, _username.text,
-                                        _password.text, _passwordAgain.text);
+                                    register(
+                                      _mail.text,
+                                      _username.text,
+                                      _password.text,
+                                      _passwordAgain.text,
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFFFDBE00),

@@ -39,8 +39,8 @@ class UserAuthentication extends Bloc<UserEvent, UserState> {
       if (event is Login) {
         try {
           emit(UpdatingUser());
-          var auth = await loginUseCase.execute(event.username, event.password);
           print('estas dentro del bloc');
+          var auth = await loginUseCase.execute(event.username, event.password);
           emit(LoginSuccess(auth.token));
         } catch (e) {
           emit(ErrorUser(error: e.toString()));

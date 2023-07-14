@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/userWidgets.dart';
 import 'package:instrumaster_v1/features/users/presentation/blocs/user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
 
 import '../../../course/Presentation/pages/courses_page.dart';
 // import '../../../course/Presentation/pages/courses_page_test.dart';
@@ -19,10 +22,33 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+Future<void> testLogin(String username, String password) async {
+  final api = "http://192.168.1.72:8000/api/v0/login/";
+  final data = {
+    "username": username,
+    "password": password,
+  };
+  final dio = Dio();
+  Response response;
+  response = await dio.post(api, data: data);
+  if (response.statusCode == 200) {
+    print(response.data);
+  } else {
+    print(response.statusCode);
+  }
+}
+
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                                     print("Hello");
                                     final SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
-                                    loginMethod(_username.text, _password.text);
+                                    testLogin(_username.text, _password.text);
                                     await Future.delayed(
                                             const Duration(seconds: 5))
                                         .then(
