@@ -115,13 +115,12 @@ class _CoursesPagePageState extends State<CoursesPagePage> {
                                           color: Color(0xFFFDBE00),
                                         ),
                                         child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 0),
-                                          child: SvgPicture.network(
-                                            state.courses[index].course_logo,
-                                            width: 100,
-                                            height: 100,
-                                          ),
+                                          padding: const EdgeInsets.all(15.0),
+                                          child: SvgPicture.asset(
+                                              'assets/images/' +
+                                                  state.courses[index]
+                                                      .course_logo +
+                                                  ".svg"),
                                         ),
                                       ),
                                     ),
@@ -132,6 +131,9 @@ class _CoursesPagePageState extends State<CoursesPagePage> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
                                   )
                                 ],
                               ),

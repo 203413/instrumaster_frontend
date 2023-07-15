@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final String value = 'instrumaster_logo_b&w.svg';
+  final String value = 'instrumaster_logo_b&w';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.center,
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: SvgPicture.asset('assets/images/' + value),
+                    child: SvgPicture.asset('assets/images/' + value + ".svg"),
                   ),
                 ),
               ),
@@ -163,7 +163,8 @@ class _LoginPageState extends State<LoginPage> {
                                       (value) => Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) => const CoursesPagePage(),
+                                          builder: (_) =>
+                                              const CoursesPagePage(),
                                         ),
                                       ),
                                     );
