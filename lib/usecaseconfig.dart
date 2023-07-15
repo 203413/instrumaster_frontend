@@ -11,6 +11,11 @@ import 'features/exercises/Data/repositories/exercise_repository_impl.dart';
 import 'features/exercises/Domain/usecases/get_exercisebylid_usecase.dart';
 import 'features/exercises/Domain/usecases/get_fouranswerbyeid_usecase.dart';
 import 'features/lesson/Domain/usecases/get_lessonsbycid_usecase.dart';
+import 'features/users/domain/usecase/register_usecase.dart';
+import 'features/users/domain/usecase/view_profile.dart';
+import 'features/users/data/datasource/user_remote_datasource.dart';
+import 'features/users/data/repositories/user_repository_imp.dart';
+import 'features/users/domain/usecase/login_usecase.dart';
 import 'features/resources/Data/datasources/resources_remote_Datasource.dart';
 import 'features/resources/Data/repositories/resources_repository_impl.dart';
 import 'features/resources/Domain/usecases/get_resourcebylid_usecase.dart';
@@ -28,10 +33,14 @@ class UsecaseConfig {
   ExerciseRepositoryImpl? exerciseRepositoryImpl;
   ExerciseRemoteDataSourceImp? exerciseRemoteDataSourceImp;
 
+  ViewProfileUseCase? viewProfileUseCase;
+  LoginUseCase? loginUseCase;
+  RegisterUseCase? registerUseCase;
+  UserRepositoryImp? userRepositoryImpl;
+  UserRemoteDataSourceImp? userRemoteDataSourceImpl;
   GetFourAnswerByEIdUsecase? getFourAnswerByEIdUsecase;
   AnswerRepositoryImpl? answerRepositoryImpl;
   AnswerRemoteDataSourceImp? answerRemoteDataSourceImp;
-
   GetResourceByLIdUsecase? getResourceByLIdUsecase;
   ResourceRepositoryImpl? resourceRepositoryImpl;
   ResourceRemoteDataSourceImp? resourceRemoteDataSourceImp;
@@ -52,6 +61,12 @@ class UsecaseConfig {
         exerciseRemoteDataSource: exerciseRemoteDataSourceImp!);
     getExerciseByLIdUsecase = GetExerciseByLIdUsecase(exerciseRepositoryImpl!);
 
+    userRemoteDataSourceImpl = UserRemoteDataSourceImp();
+    userRepositoryImpl =
+        UserRepositoryImp(userRemoteDataSource: userRemoteDataSourceImpl!);
+    loginUseCase = LoginUseCase(userRepositoryImpl!);
+    registerUseCase = RegisterUseCase(userRepositoryImpl!);
+    viewProfileUseCase = ViewProfileUseCase(userRepositoryImpl!);
     answerRemoteDataSourceImp = AnswerRemoteDataSourceImp();
     answerRepositoryImpl = AnswerRepositoryImpl(
         answerRemoteDataSource: answerRemoteDataSourceImp!);
