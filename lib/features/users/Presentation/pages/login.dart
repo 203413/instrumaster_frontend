@@ -1,61 +1,30 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/register.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../widgets/userWidgets.dart';
-import 'package:instrumaster_v1/features/users/presentation/blocs/user_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:io';
-import 'package:dio/dio.dart';
 
 import '../../../course/Presentation/pages/courses_page.dart';
-// import '../../../course/Presentation/pages/courses_page_test.dart';
-// import '../../../course/Presentation/pages/test.dart';
+import '../../../course/Presentation/pages/courses_page_test.dart';
+import '../../../course/Presentation/pages/test.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-Future<void> testLogin(String username, String password) async {
-  final api = "http://192.168.1.72:8000/api/v0/login/";
-  final data = {
-    "username": username,
-    "password": password,
-  };
-  final dio = Dio();
-  Response response;
-  response = await dio.post(api, data: data);
-  if (response.statusCode == 200) {
-    print(response.data);
-  } else {
-    print(response.statusCode);
-  }
+  _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _username = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
-  }
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final String value = 'instrumaster_logo_b&w.svg';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: const Color(0xFFFDBE00),
+      backgroundColor: Color(0xFFFDBE00),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/images/bg_image1.png'),
                 repeat: ImageRepeat.repeat)),
@@ -86,8 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                   // single scroll
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(20, 45, 20, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 45, 20, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 10,
                               ),
                               SvgPicture.asset(
@@ -119,9 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                             'Username',
                             style: TextStyle(fontSize: 24),
                           ),
-                          TextField(
-                            controller: _username,
-                            decoration: const InputDecoration(
+                          const TextField(
+                            decoration: InputDecoration(
                                 border: InputBorder.none,
                                 filled: true,
                                 fillColor: Color(
@@ -135,9 +102,8 @@ class _LoginPageState extends State<LoginPage> {
                             'Password',
                             style: TextStyle(fontSize: 24),
                           ),
-                          TextField(
-                            controller: _password,
-                            decoration: const InputDecoration(
+                          const TextField(
+                            decoration: InputDecoration(
                                 suffixIcon: Icon(LineIcons.eye),
                                 border: InputBorder.none,
                                 filled: true,
@@ -151,31 +117,22 @@ class _LoginPageState extends State<LoginPage> {
                               child: SizedBox(
                                 width: 150,
                                 child: ElevatedButton(
-                                  onPressed: () async {
-                                    print("Hello");
-                                    final SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    testLogin(_username.text, _password.text);
-                                    await Future.delayed(
-                                            const Duration(seconds: 5))
-                                        .then(
-                                      (value) => Navigator.pushReplacement(
+                                  onPressed: () {
+                                    Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) => const CoursesPage(),
-                                        ),
-                                      ),
-                                    );
+                                            builder: (context) =>
+                                                CoursesPagePage()));
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFFFDBE00),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30))),
-                                  child: const Text(
+                                  child: Text(
                                     'Login',
                                     style: TextStyle(fontSize: 24),
                                   ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xFFFDBE00),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30))),
                                 ),
                               ),
                             ),
@@ -184,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: RichText(
                               text: TextSpan(
                                   text: 'Dont have and account?',
-                                  style: const TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.black),
                                   children: [
                                     TextSpan(
                                         text: ' Sing-up',
@@ -194,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const RegisterPage()));
+                                                        RegisterPage()));
                                           },
                                         style: const TextStyle(
                                             color: Color(0xFFFDBE00)))
@@ -202,19 +159,19 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.only(top: 20),
                             child: Row(
                               children: [
                                 Expanded(
                                     child: Container(
                                   color: Colors.black,
-                                  child: const SizedBox(
+                                  child: SizedBox(
                                     width: double.infinity,
                                     height: 1,
                                   ),
                                 )),
-                                const Padding(
-                                  padding: EdgeInsets.only(
+                                Padding(
+                                  padding: const EdgeInsets.only(
                                     left: 3,
                                     right: 3,
                                   ),
@@ -223,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Expanded(
                                     child: Container(
                                   color: Colors.black,
-                                  child: const SizedBox(
+                                  child: SizedBox(
                                     width: double.infinity,
                                     height: 1,
                                   ),
@@ -254,14 +211,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  void loginMethod(String username, String password) async {
-    if (username == '' && password == '') {
-      showAlertDialog("Acceso denegado", "Completa ambos campos", context);
-    } else {
-      BlocProvider.of<UserAuthentication>(context)
-          .add(Login(username: username, password: password));
-    }
   }
 }

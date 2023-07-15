@@ -3,32 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/login.dart';
 import 'package:line_icons/line_icons.dart';
-import '../widgets/userWidgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/user_bloc.dart';
-import 'package:instrumaster_v1/features/users/domain/entities/user.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController _mail = TextEditingController();
-  final TextEditingController _username = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _passwordAgain = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: const Color(0xFFFDBE00),
+      backgroundColor: Color(0xFFFDBE00),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/images/bg_image1.png'),
                 repeat: ImageRepeat.repeat)),
@@ -60,8 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   // single scroll
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(20, 45, 20, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 45, 20, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 10,
                               ),
                               SvgPicture.asset(
@@ -93,9 +84,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Username',
                             style: TextStyle(fontSize: 24),
                           ),
-                          TextField(
-                            controller: _username,
-                            decoration: const InputDecoration(
+                          const TextField(
+                            decoration: InputDecoration(
                                 border: InputBorder.none,
                                 filled: true,
                                 fillColor: Color(
@@ -109,9 +99,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Email',
                             style: TextStyle(fontSize: 24),
                           ),
-                          TextField(
-                            controller: _mail,
-                            decoration: const InputDecoration(
+                          const TextField(
+                            decoration: InputDecoration(
                                 border: InputBorder.none,
                                 filled: true,
                                 fillColor: Color(
@@ -125,9 +114,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Password',
                             style: TextStyle(fontSize: 24),
                           ),
-                          TextField(
-                            controller: _password,
-                            decoration: const InputDecoration(
+                          const TextField(
+                            decoration: InputDecoration(
                                 suffixIcon: Icon(LineIcons.eye),
                                 border: InputBorder.none,
                                 filled: true,
@@ -142,9 +130,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Confirm password',
                             style: TextStyle(fontSize: 24),
                           ),
-                          TextField(
-                            controller: _passwordAgain,
-                            decoration: const InputDecoration(
+                          const TextField(
+                            decoration: InputDecoration(
                                 suffixIcon: Icon(LineIcons.eye),
                                 border: InputBorder.none,
                                 filled: true,
@@ -161,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             controlAffinity: ListTileControlAffinity.leading,
                             title: RichText(
-                                text: const TextSpan(
+                                text: TextSpan(
                                     text: 'Términos y condiciones',
                                     style: TextStyle(color: Colors.black))),
                           ),
@@ -171,23 +158,16 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: SizedBox(
                                 width: 150,
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    register(
-                                      _mail.text,
-                                      _username.text,
-                                      _password.text,
-                                      _passwordAgain.text,
-                                    );
-                                  },
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(fontSize: 24),
+                                  ),
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFFFDBE00),
+                                      backgroundColor: Color(0xFFFDBE00),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30))),
-                                  child: const Text(
-                                    'Register',
-                                    style: TextStyle(fontSize: 24),
-                                  ),
                                 ),
                               ),
                             ),
@@ -198,7 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: RichText(
                                 text: TextSpan(
                                     text: 'You have an account?',
-                                    style: const TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Colors.black),
                                     children: [
                                       TextSpan(
                                           text: ' Sing-in',
@@ -208,9 +188,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const LoginPage()));
+                                                          LoginPage()));
                                             },
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               color: Color(0xFFFDBE00)))
                                     ]),
                               ),
@@ -227,22 +207,5 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
-  }
-
-  void register(
-      String mail, String username, String password, String password2) {
-    if (mail == '' && username == '' && password == '' && password2 == '') {
-      showAlertDialog("registro fallido", "Completa todos los campos", context);
-    } else {
-      var user = User(
-        id_user: 0,
-        username: username,
-        email: mail,
-        password: password,
-      );
-      BlocProvider.of<UserAuthentication>(context).add(Register(user: user));
-      showAlertDialog(
-          "Registrado con exito", "Por favor, inicia sesion ahora", context);
-    }
   }
 }
