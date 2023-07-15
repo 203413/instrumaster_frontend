@@ -1,21 +1,23 @@
-class Exercise {
-  final String id;
-  final String id_lesson;
-  final String multimedia;
-  final String question;
-  final String answer;
-  final int stars;
-  final String exercise_order;
+// ignore_for_file: non_constant_identifier_names
+import 'package:instrumaster_v1/features/exercises/Domain/entities/answer.dart';
 
-  Exercise({
-    required this.id,
-    required this.id_lesson,
-    required this.multimedia,
-    required this.question,
-    required this.answer,
-    required this.stars,
-    required this.exercise_order,
-  });
+class Exercise {
+  final int id;
+  final int id_lesson;
+  final String question;
+  final int stars;
+  final String multimedia;
+  final String exercise_order;
+  final List<Answer>? answers;
+
+  Exercise(
+      {required this.id,
+      required this.id_lesson,
+      required this.question,
+      required this.stars,
+      required this.multimedia,
+      required this.exercise_order,
+      this.answers});
 
   getExerciseByLessonID(int id_lesson) {}
 }

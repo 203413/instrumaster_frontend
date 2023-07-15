@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:instrumaster_v1/features/exercises/Presentation/bloc/answer_bloc.dart';
 import 'package:instrumaster_v1/features/exercises/Presentation/bloc/exercise_bloc.dart';
+import '../../../lesson/Presentation/pages/quiztest.dart';
 import '../../../lesson/Presentation/widgets/bnavigationbar.dart';
 
 class ExercisesPage extends StatefulWidget {
@@ -12,16 +14,13 @@ class ExercisesPage extends StatefulWidget {
 }
 
 class _ExercisesPageState extends State<ExercisesPage> {
-  final MyController controller = MyController();
+  late String selectedOption = '';
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ExerciseBloc>(context)
         .add(GetExercisesByLessonID(id_lesson: widget.arg));
-    // context
-    //     .read<LessonsBloc>()
-    //     .add(GetLessonsByCourseID(id_lesson: widget.arg));
-    print(widget.arg);
+    //print(widget.arg);
   }
 
   @override
@@ -35,10 +34,15 @@ class _ExercisesPageState extends State<ExercisesPage> {
             child: CircularProgressIndicator(),
           );
         } else if (state is Loaded) {
-          print(state.exercises);
+          //print(state.exercises);
           return SingleChildScrollView(
             child: Column(
                 children: state.exercises.map((exercise) {
+              BlocProvider.of<AnswerBloc>(context).add(
+                  GetFourAnswerByExersiceID(
+                      id_exercise: exercise.id.toString()));
+              print(exercise.id.toString());
+              print('holaaaaa');
               return Container(
                 margin: EdgeInsets.all(5),
                 padding: EdgeInsets.all(5),
@@ -50,30 +54,34 @@ class _ExercisesPageState extends State<ExercisesPage> {
                       title: Text(exercise.question),
                       subtitle: Text('hola'),
                     ),
-                    CheckboxListTile(
-                      title: Text('Respuesta 1'),
-                      value: controller.values.contains('Respuesta 1'),
-                      onChanged: (bool? value) {
-                        if (value != null) {
-                          controller.updateValue('Respuesta 1', value);
-                        }
-                      },
-                    ),
-                    CheckboxListTile(
-                      title: Text('Respuesta 2'),
-                      value: controller.values.contains('Respuesta 2'),
-                      onChanged: (bool? value) {
-                        if (value != null) {
-                          controller.updateValue('Respuesta 2', value);
-                        }
-                      },
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        sendData(controller);
-                      },
-                      child: Text('Enviar Datos'),
-                    ),
+                    BlocBuilder<AnswerBloc, AnswerState>(
+                        builder: (context, state) {
+                      if (state is Loading1) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is Loaded1) {
+                        print(state.answers[0].id.toString());
+                        print('holaaaaa2');
+                        return Column(
+                          // children: state.answers.map((answers) {
+                          //   //print(answers.id);
+                          //   return Container(
+                          //     child: Text(answers.id.toString()),
+                          //   );
+                          // }).toList(),
+                          children: [Text(state.answers[1].id.toString())],
+                        );
+                      } else if (state is Error1) {
+                        print(state.error);
+                        return Center(
+                          child: Text(state.error,
+                              style: const TextStyle(color: Colors.red)),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }),
                   ],
                 ),
               );
@@ -91,31 +99,21 @@ class _ExercisesPageState extends State<ExercisesPage> {
     );
   }
 
-  void sendData(MyController controller) {
-    print('Respuestas seleccionadas: ${controller.values}');
-  }
-}
-
-class MyController {
-  List<String> values = [];
-
-  void updateValue(String value, bool checked) {
-    if (checked) {
-      addValue(value);
-    } else {
-      removeValue(value);
-    }
+  void printSelectedOption() {
+    print(selectedOption);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => quiz()));
   }
 
-  void addValue(String value) {
-    if (!values.contains(value)) {
-      values.add(value);
-    }
-  }
-
-  void removeValue(String value) {
-    if (values.contains(value)) {
-      values.remove(value);
-    }
+  Widget _opcionesTile(String opcion) {
+    return RadioListTile<String>(
+      title: Text(opcion),
+      value: opcion,
+      groupValue: selectedOption,
+      onChanged: (value) {
+        setState(() {
+          selectedOption = value!;
+        });
+      },
+    );
   }
 }

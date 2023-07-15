@@ -1,6 +1,5 @@
-import 'package:instrumaster_v1/features/exercises/Domain/entities/Exercise.dart';
+import 'package:instrumaster_v1/features/exercises/Domain/entities/exercise.dart';
 import '../../Domain/repositories/exercise_repository.dart';
-
 import '../datasources/exercise_remote_Datasource.dart';
 
 class ExerciseRepositoryImpl implements ExerciseRepository {

@@ -118,7 +118,10 @@ class _CoursesPagePageState extends State<CoursesPagePage> {
                                           padding:
                                               const EdgeInsets.only(top: 0),
                                           child: SvgPicture.network(
-                                              state.courses[index].course_logo),
+                                            state.courses[index].course_logo,
+                                            width: 100,
+                                            height: 100,
+                                          ),
                                         ),
                                       ),
                                     ),
