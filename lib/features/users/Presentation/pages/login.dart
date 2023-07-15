@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final String value = 'instrumaster_logo_b&w.svg';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,8 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.center,
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: SvgPicture.asset(
-                        'assets/images/instrumaster_logo_b&w.svg'),
+                    child: SvgPicture.asset('assets/images/' + value),
                   ),
                 ),
               ),

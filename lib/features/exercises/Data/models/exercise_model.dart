@@ -1,24 +1,26 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:instrumaster_v1/features/exercises/Domain/entities/Exercise.dart';
+import 'package:instrumaster_v1/features/exercises/Domain/entities/answer.dart';
+import 'package:instrumaster_v1/features/exercises/Domain/entities/exercise.dart';
 
 class ExerciseModel extends Exercise {
   ExerciseModel({
-    required String id,
-    required String id_lesson,
+    required int id,
+    required int id_lesson,
     required String multimedia,
     required String question,
-    required String answer,
     required int stars,
     required String exercise_order,
+    List<Answer>? answers,
   }) : super(
-            id: id,
-            id_lesson: id_lesson,
-            multimedia: multimedia,
-            question: question,
-            answer: answer,
-            stars: stars,
-            exercise_order: exercise_order);
+          id: id,
+          id_lesson: id_lesson,
+          multimedia: multimedia,
+          question: question,
+          stars: stars,
+          exercise_order: exercise_order,
+          answers: answers,
+        );
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) {
     return ExerciseModel(
@@ -26,20 +28,19 @@ class ExerciseModel extends Exercise {
         id_lesson: json['id_lesson'],
         multimedia: json['multimedia'],
         question: json['question'],
-        answer: json['answer'],
         stars: json['stars'],
-        exercise_order: json['exercise_order']);
+        exercise_order: json['exercise_order'],
+        answers: json['answer']);
   }
 
   factory ExerciseModel.fromEntity(Exercise exercise) {
     return ExerciseModel(
-      id: exercise.id,
-      id_lesson: exercise.id_lesson,
-      multimedia: exercise.multimedia,
-      question: exercise.question,
-      answer: exercise.answer,
-      stars: exercise.stars,
-      exercise_order: exercise.exercise_order,
-    );
+        id: exercise.id,
+        id_lesson: exercise.id_lesson,
+        multimedia: exercise.multimedia,
+        question: exercise.question,
+        stars: exercise.stars,
+        exercise_order: exercise.exercise_order,
+        answers: exercise.answers);
   }
 }
