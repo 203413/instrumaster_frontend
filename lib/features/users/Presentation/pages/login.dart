@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/register.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../course/Presentation/pages/courses_page_test.dart';
 import '../widgets/userWidgets.dart';
 import 'package:instrumaster_v1/features/users/presentation/blocs/user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -162,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                                       (value) => Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) => const CoursesPage(),
+                                          builder: (_) => const CoursesPagePage(),
                                         ),
                                       ),
                                     );
