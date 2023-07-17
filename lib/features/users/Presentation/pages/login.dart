@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,22 +25,6 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-Future<void> testLogin(String username, String password) async {
-  final api = "http://192.168.1.72:8000/api/v0/login/";
-  final data = {
-    "username": username,
-    "password": password,
-  };
-  final dio = Dio();
-  Response response;
-  response = await dio.post(api, data: data);
-  if (response.statusCode == 200) {
-    print(response.data);
-  } else {
-    print(response.statusCode);
-  }
-}
-
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -50,6 +36,30 @@ class _LoginPageState extends State<LoginPage> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final String value = 'instrumaster_logo_b&w';
+
+  Future<void> testLogin(String username, String password) async {
+    print(username);
+    final api = "https://instrumaster.iothings.com.mx/api/v1/login/";
+    final data = {
+      "username": username,
+      "password": password,
+    };
+    final dio = Dio();
+    Response response;
+    response = await dio.post(api, data: data);
+    if (response.statusCode == 200) {
+      print(response.data);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const CoursesPagePage(),
+        ),
+      );
+    } else {
+      print(response.statusCode);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,17 +167,6 @@ class _LoginPageState extends State<LoginPage> {
                                     final SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
                                     testLogin(_username.text, _password.text);
-                                    await Future.delayed(
-                                            const Duration(seconds: 5))
-                                        .then(
-                                      (value) => Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              const CoursesPagePage(),
-                                        ),
-                                      ),
-                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFFFDBE00),

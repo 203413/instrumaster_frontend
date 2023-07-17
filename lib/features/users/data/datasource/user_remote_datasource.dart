@@ -14,14 +14,14 @@ abstract class UserRemoteDataSource {
 }
 
 class UserRemoteDataSourceImp extends UserRemoteDataSource {
-  String ip = "192.168.1.72:8000";
+  String ip = "35.168.88.197";
 
   @override
   Future<Authentication> login(String username, String password) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       print("Entro exitosamente al metodo login");
-      var url = Uri.http(ip, '/api/v0/login/');
+      var url = Uri.http(ip, '/api/v1/login/');
       var body = {'username': username, 'password': password};
       var headers = {'Content-Type': 'application/json'};
       var res = await http.post(url,
@@ -42,7 +42,7 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
   Future<void> logout(User user) async {}
   Future<void> register(User user) async {
     print("Entro exitosamente al metodo register");
-    var url = Uri.http(ip, '/api/v0/register/');
+    var url = Uri.http(ip, '/api/v1/register/');
     var body = {
       'username': user.username,
       'email': user.email,
@@ -64,7 +64,7 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
       print('entrando al metodo viewprofile');
       print('Lista de amigos');
       var headers = {'Authorization': 'Token $token'};
-      var url = Uri.http(ip, '/api/v0/profile/id/$user_id');
+      var url = Uri.http(ip, '/api/v1/profile/id/$user_id');
       var response = await http.get(url, headers: headers);
       var responseBody = response.body;
       var responseJson = convert.jsonDecode(responseBody);
