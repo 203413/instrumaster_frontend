@@ -4,16 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instrumaster_v1/features/users/Presentation/pages/profile.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/register.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../course/Presentation/pages/courses_page_test.dart';
 import '../widgets/userWidgets.dart';
 import 'package:instrumaster_v1/features/users/presentation/blocs/user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
-
+import 'dart:convert' as convert;
 import '../../../course/Presentation/pages/courses_page.dart';
 // import '../../../course/Presentation/pages/courses_page_test.dart';
 // import '../../../course/Presentation/pages/test.dart';
@@ -28,6 +28,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
+
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
@@ -38,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   final String value = 'instrumaster_logo_b&w';
 
   Future<void> testLogin(String username, String password) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     print(username);
     final api = "https://instrumaster.iothings.com.mx/api/v1/login/";
     final data = {
@@ -49,10 +51,21 @@ class _LoginPageState extends State<LoginPage> {
     response = await dio.post(api, data: data);
     if (response.statusCode == 200) {
       print(response.data);
+      Map<String, dynamic> responseData = response.data;
+      print("yeaaaaaah");
+      print(responseData);
+      int id = responseData['id'];
+      String token = responseData['token'];
+      print(id.toString() + token);
+      await prefs.setString("Token", token);
+      await prefs.setInt("user_id", id);
+      print('PREFERENCIAS COMPARTIDAS PRUEBA' +
+          prefs.getInt('user_id').toString());
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => const CoursesPagePage(),
+          builder: (_) => const ProfilePage(),
         ),
       );
     } else {

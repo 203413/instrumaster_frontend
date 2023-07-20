@@ -1,11 +1,11 @@
-import '../../domain/entities/user.dart';
+import '../../Domain/entities/user.dart';
 
 class UserModel extends User {
   UserModel({
     required int id_user,
     required String username,
     required String email,
-    required String password,
+    String? password,
   }) : super(
           id_user: id_user,
           username: username,
