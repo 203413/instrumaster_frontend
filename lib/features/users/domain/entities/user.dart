@@ -3,12 +3,12 @@ class User {
 
   String username;
   String email;
-  String password;
+  String? password;
 
   User({
     required this.id_user,
     required this.username,
     required this.email,
-    required this.password,
+    this.password,
   });
 }

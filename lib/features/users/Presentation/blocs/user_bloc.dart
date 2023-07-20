@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instrumaster_v1/features/users/domain/entities/user.dart';
-import 'package:instrumaster_v1/features/users/domain/usecase/view_profile.dart';
+import 'package:instrumaster_v1/features/users/Data/models/profile_model.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/profile.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/progress.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/user.dart';
+import 'package:instrumaster_v1/features/users/Domain/usecase/view_profile.dart';
 
-import '../../domain/usecase/login_usecase.dart';
-import '../../domain/usecase/register_usecase.dart';
+import '../../Domain/usecase/get_progressByUId_usecase.dart';
+import '../../Domain/usecase/login_usecase.dart';
+import '../../Domain/usecase/register_usecase.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -18,7 +22,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (event is GetByUsername) {
         try {
           emit(LoadingUser());
-          User response = await viewProfileUseCase.execute(event.userId);
+          ProfileModel response =
+              await viewProfileUseCase.execute(event.userId);
           emit(LoadedUser(user: response));
         } catch (e) {
           emit(ErrorUser(error: e.toString()));
@@ -53,6 +58,24 @@ class UserAuthentication extends Bloc<UserEvent, UserState> {
           emit(UpdatedUser());
         } catch (e) {
           emit(ErrorUser(error: e.toString()));
+        }
+      }
+    });
+  }
+}
+
+class ProgressBloc extends Bloc<UserEvent, UserState> {
+  final GetProgressByUId getProgressByUId;
+
+  ProgressBloc({required this.getProgressByUId}) : super(LoadingProgress()) {
+    on<UserEvent>((event, emit) async {
+      if (event is GetProgressByUserID) {
+        try {
+          List<Progress> response =
+              await getProgressByUId.execute(event.userId);
+          emit(LoadedProgress(progress: response));
+        } catch (e) {
+          emit(ErrorProgress(error: e.toString()));
         }
       }
     });

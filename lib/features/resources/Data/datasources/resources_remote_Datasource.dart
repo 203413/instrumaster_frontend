@@ -14,8 +14,8 @@ class ResourceRemoteDataSourceImp implements ResourceRemoteDataSource {
   @override
   Future<List<ResourceModel>> getResourceByLessonID(String id_lesson) async {
     //print('DataSource');
-    var url =
-        Uri.http('35.168.88.197', '/api/v1/resources/bylesson/$id_lesson');
+    var url = Uri.http('instrumaster.iothings.com.mx',
+        '/api/v1/resources/bylesson/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

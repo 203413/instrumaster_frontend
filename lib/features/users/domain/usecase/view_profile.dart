@@ -1,3 +1,4 @@
+import '../../Data/models/profile_model.dart';
 import '../entities/user.dart';
 import '../repositories/user_repository.dart';
 
@@ -6,7 +7,7 @@ class ViewProfileUseCase {
 
   ViewProfileUseCase(this.userRepository);
 
-  Future<User> execute(int userId) async {
+  Future<ProfileModel> execute(int userId) async {
     return await userRepository.findUserByUsername(userId);
   }
 }

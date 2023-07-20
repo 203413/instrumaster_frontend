@@ -6,7 +6,7 @@ import 'package:line_icons/line_icons.dart';
 import '../widgets/userWidgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_bloc.dart';
-import 'package:instrumaster_v1/features/users/domain/entities/user.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/user.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

@@ -43,13 +43,18 @@ class MyApp extends StatelessWidget {
               create: (BuildContext context) => ResourceBloc(
                   getResourceByLIdUsecase:
                       usecaseConfig.getResourceByLIdUsecase!)),
-                  BlocProvider<UserAuthentication>(
-          create: (BuildContext context) => UserAuthentication(
-              loginUseCase: usecaseConfig.loginUseCase!,
-              registerUseCase: usecaseConfig.registerUseCase!)),
+          BlocProvider<UserAuthentication>(
+              create: (BuildContext context) => UserAuthentication(
+                  loginUseCase: usecaseConfig.loginUseCase!,
+                  registerUseCase: usecaseConfig.registerUseCase!)),
+          BlocProvider<UserBloc>(
+              create: (BuildContext context) => UserBloc(
+                  viewProfileUseCase: usecaseConfig.viewProfileUseCase!)),
+          BlocProvider<ProgressBloc>(
+              create: (BuildContext context) => ProgressBloc(
+                  getProgressByUId: usecaseConfig.getProgressByUId!)),
         ],
         child: const MaterialApp(
             debugShowCheckedModeBanner: false, home: LoginPage()));
-
   }
 }

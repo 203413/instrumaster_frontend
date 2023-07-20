@@ -20,3 +20,9 @@ class Register extends UserEvent {
 
   Register({required this.user});
 }
+
+class GetProgressByUserID extends UserEvent {
+  final int userId;
+
+  GetProgressByUserID({required this.userId});
+}

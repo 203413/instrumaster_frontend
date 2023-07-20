@@ -15,7 +15,8 @@ class ExerciseRemoteDataSourceImp implements ExerciseRemoteDataSource {
   @override
   Future<List<ExerciseModel>> getExerciseByLessonID(String id_lesson) async {
     //print('DataSource');
-    var url = Uri.http('35.168.88.197', '/exercise/lessonId/$id_lesson');
+    var url = Uri.http(
+        'instrumaster.iothings.com.mx', '/exercise/lessonId/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -51,7 +52,7 @@ class ExerciseRemoteDataSourceImp implements ExerciseRemoteDataSource {
 
       // CoursesList.asMap().forEach((index, exercise) async {
       //   var url =
-      //       Uri.http('35.168.88.197', '/answer/four/' + exercise.id.toString());
+      //       Uri.http('instrumaster.iothings.com.mx', '/answer/four/' + exercise.id.toString());
       //   var response = await http.get(url);
 
       //   if (response.statusCode == 200) {

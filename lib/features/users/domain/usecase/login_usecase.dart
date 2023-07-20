@@ -1,4 +1,4 @@
-import 'package:instrumaster_v1/features/users/domain/entities/authentication.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/authentication.dart';
 
 import '../repositories/user_repository.dart';
 

@@ -13,7 +13,7 @@ class CourseRemoteDataSourceImp implements CourseRemoteDataSource {
   Future<List<CourseModel>> getPosts() async {
     //print('DataSource');
 
-    var url = Uri.http('35.168.88.197', '/course');
+    var url = Uri.http('instrumaster.iothings.com.mx', '/course');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

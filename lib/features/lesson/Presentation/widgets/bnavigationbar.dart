@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../users/Presentation/pages/profile.dart';
+
 class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
               label: 'Search',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: GestureDetector(
+                  onTap: () {
+                    print('hola');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ProfilePage(),
+                      ),
+                    );
+                  },
+                  child: Icon(Icons.person)),
               label: 'Profile',
             ),
           ],
