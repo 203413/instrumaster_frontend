@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
 
+import '../../../../baseURL.dart';
 import '../../Domain/entities/answer.dart';
 import '../models/answer_model.dart';
 
@@ -15,8 +16,7 @@ class AnswerRemoteDataSourceImp implements AnswerRemoteDataSource {
   Future<List<AnswerModel>> getFourAnswerByExersiceID(
       String id_exercise) async {
     //print('DataSource');
-    var url =
-        Uri.http('instrumaster.iothings.com.mx', '/answer/four/$id_exercise');
+    var url = Uri.http(serverURL, '/answer/four/$id_exercise');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

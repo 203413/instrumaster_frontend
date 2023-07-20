@@ -6,6 +6,8 @@ import 'package:instrumaster_v1/features/exercises/Data/models/exercise_model.da
 import 'package:instrumaster_v1/features/exercises/Domain/entities/answer.dart';
 import 'package:instrumaster_v1/features/exercises/Domain/entities/exercise.dart';
 
+import '../../../../baseURL.dart';
+
 abstract class ExerciseRemoteDataSource {
   // https://jsonplaceholder.typicode.com/posts
   Future<List<Exercise>> getExerciseByLessonID(String id_lesson);
@@ -15,8 +17,7 @@ class ExerciseRemoteDataSourceImp implements ExerciseRemoteDataSource {
   @override
   Future<List<ExerciseModel>> getExerciseByLessonID(String id_lesson) async {
     //print('DataSource');
-    var url = Uri.http(
-        'instrumaster.iothings.com.mx', '/exercise/lessonId/$id_lesson');
+    var url = Uri.http(serverURL, '/exercise/lessonId/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

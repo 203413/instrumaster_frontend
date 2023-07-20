@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
 import 'package:instrumaster_v1/features/lesson/Domain/entities/lesson.dart';
+import '../../../../baseURL.dart';
 import '../models/lesson_model.dart';
 
 abstract class LessonRemoteDataSource {
@@ -13,8 +14,7 @@ class LessonRemoteDataSourceImp implements LessonRemoteDataSource {
   @override
   Future<List<LessonModel>> getLessonsByCourseID(String id_lesson) async {
     //print('DataSource');
-    var url = Uri.http(
-        'instrumaster.iothings.com.mx', '/lessons/Courseid/$id_lesson');
+    var url = Uri.http(serverURL, '/lessons/Courseid/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

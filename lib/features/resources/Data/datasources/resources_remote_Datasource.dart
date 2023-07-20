@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
 
+import '../../../../baseURL.dart';
 import '../../Domain/entities/resources.dart';
 import '../models/resources_model.dart';
 
@@ -14,8 +15,8 @@ class ResourceRemoteDataSourceImp implements ResourceRemoteDataSource {
   @override
   Future<List<ResourceModel>> getResourceByLessonID(String id_lesson) async {
     //print('DataSource');
-    var url = Uri.http('instrumaster.iothings.com.mx',
-        '/api/v1/resources/bylesson/$id_lesson');
+    var url =
+        Uri.http(serverURL, '/api/v1/resources/bylesson/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
+import '../../../../baseURL.dart';
 import '../models/course_model.dart';
 
 abstract class CourseRemoteDataSource {
@@ -13,7 +14,7 @@ class CourseRemoteDataSourceImp implements CourseRemoteDataSource {
   Future<List<CourseModel>> getPosts() async {
     //print('DataSource');
 
-    var url = Uri.http('instrumaster.iothings.com.mx', '/course');
+    var url = Uri.http(serverURL, '/course');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
