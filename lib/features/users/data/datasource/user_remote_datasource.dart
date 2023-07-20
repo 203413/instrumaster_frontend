@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
+import '../../../../baseURL.dart';
 import '../../domain/entities/user.dart';
 
 abstract class UserRemoteDataSource {
@@ -14,7 +15,7 @@ abstract class UserRemoteDataSource {
 }
 
 class UserRemoteDataSourceImp extends UserRemoteDataSource {
-  String ip = "35.168.88.197";
+  String ip = serverURL;
 
   @override
   Future<Authentication> login(String username, String password) async {
