@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
 
+import '../../../../baseURL.dart';
 import '../../Domain/entities/resources.dart';
 import '../models/resources_model.dart';
 
@@ -15,7 +16,7 @@ class ResourceRemoteDataSourceImp implements ResourceRemoteDataSource {
   Future<List<ResourceModel>> getResourceByLessonID(String id_lesson) async {
     //print('DataSource');
     var url =
-        Uri.http('35.168.88.197', '/api/v1/resources/bylesson/$id_lesson');
+        Uri.http(serverURL, '/api/v1/resources/bylesson/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

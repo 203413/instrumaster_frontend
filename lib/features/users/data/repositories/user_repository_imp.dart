@@ -1,8 +1,10 @@
-import 'package:instrumaster_v1/features/users/domain/entities/authentication.dart';
-import 'package:instrumaster_v1/features/users/domain/entities/user.dart';
+import 'package:instrumaster_v1/features/users/Data/datasource/user_remote_datasource.dart';
+import 'package:instrumaster_v1/features/users/Data/models/profile_model.dart';
+import 'package:instrumaster_v1/features/users/Data/models/progress_model.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/authentication.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/user.dart';
 
-import '../../domain/repositories/user_repository.dart';
-import '../datasource/user_remote_datasource.dart';
+import '../../Domain/repositories/user_repository.dart';
 
 class UserRepositoryImp implements UserRepository {
   final UserRemoteDataSource userRemoteDataSource;
@@ -21,7 +23,7 @@ class UserRepositoryImp implements UserRepository {
   }
 
   @override
-  Future<User> findUserByUsername(int userId) async {
+  Future<ProfileModel> findUserByUsername(int userId) async {
     return await userRemoteDataSource.viewProfile(userId);
   }
 
@@ -34,5 +36,10 @@ class UserRepositoryImp implements UserRepository {
   @override
   Future<void> register(User user) async {
     return await userRemoteDataSource.register(user);
+  }
+
+  @override
+  Future<List<ProgressModel>> getProgressByUserID(int userId) async {
+    return await userRemoteDataSource.getProgressByUserID(userId);
   }
 }

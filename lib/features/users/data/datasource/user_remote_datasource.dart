@@ -1,20 +1,26 @@
-import 'package:instrumaster_v1/features/users/domain/entities/authentication.dart';
+import 'package:instrumaster_v1/features/users/Data/models/profile_model.dart';
+import 'package:instrumaster_v1/features/users/Data/models/progress_model.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/authentication.dart';
+import 'package:instrumaster_v1/features/users/Domain/entities/icon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
-import '../../domain/entities/user.dart';
+import '../../../../baseURL.dart';
+import '../../Domain/entities/progress.dart';
+import '../../Domain/entities/user.dart';
 
 abstract class UserRemoteDataSource {
   Future<Authentication> login(String username, String password);
   Future<void> logout(User user);
   Future<void> register(User user);
   Future<void> updateInfo(User user);
-  Future<User> viewProfile(int userId);
+  Future<ProfileModel> viewProfile(int userId);
+  Future<List<ProgressModel>> getProgressByUserID(int userId);
 }
 
 class UserRemoteDataSourceImp extends UserRemoteDataSource {
-  String ip = "35.168.88.197";
+  String ip = serverURL;
 
   @override
   Future<Authentication> login(String username, String password) async {
@@ -28,10 +34,12 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
           body: convert.jsonEncode(body), headers: headers);
       var responseJson = convert.jsonDecode(res.body);
       var authentication = Authentication(
-          token: responseJson['token'],
-          user_id: responseJson['user_id'].toString());
+          token: responseJson['token'], user_id: responseJson['id'].toString());
       await prefs.setString("Token", authentication.token);
-      await prefs.setString("id", authentication.user_id);
+      await prefs.setString("user_id", authentication.user_id);
+      print("HOL;A MIRASAJDA FASJDA S: " + authentication.user_id);
+      print(
+          'PREFERENCIAS COMPARTIDAS PRUEBA' + prefs.getString('id').toString());
       return authentication;
     } catch (e) {
       print(e);
@@ -56,32 +64,75 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
 
   Future<void> updateInfo(User user) async {}
 
-  Future<User> viewProfile(int userId) async {
-    try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('Token');
-      final String? user_id = prefs.getString('id');
-      print('entrando al metodo viewprofile');
-      print('Lista de amigos');
-      var headers = {'Authorization': 'Token $token'};
-      var url = Uri.http(ip, '/api/v1/profile/id/$user_id');
-      var response = await http.get(url, headers: headers);
-      var responseBody = response.body;
-      var responseJson = convert.jsonDecode(responseBody);
-      var profileJson = responseJson['profile'];
-      print(
-        profileJson['url_image'].toString(),
-      );
-      var user = User(
-        id_user: responseJson['pk'],
-        username: responseJson['username'],
-        email: responseJson['email'],
-        password: '',
-      );
-      return user;
-    } catch (e) {
-      print(e);
-      throw Exception(e);
+  Future<ProfileModel> viewProfile(int userId) async {
+    print('entrando al metodo viewprofile');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('Token');
+    final int? user_id = prefs.getInt('user_id');
+
+    var headers = {'Authorization': 'Token $token'};
+    var url = Uri.http(ip, '/api/v1/profiles/$user_id');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      print('Datos de perfil recibidos');
+      //List<Map<String, dynamic>> resultlist = [];
+      var jsonResponse = convert.jsonDecode(response.body);
+      var results = jsonResponse;
+      print(results);
+      if (results == null) {
+        print('datos nulso');
+      }
+      print('Paso1');
+      Map user = results['id_user'];
+      print(user['username']);
+      User users = User(
+          id_user: user['id'],
+          username: user['username'],
+          email: user['email']);
+      print('Paso2');
+      Map iconprofile = results['icon'];
+      print(iconprofile['image']);
+      IconProfile icons = IconProfile(
+          id: iconprofile['id'],
+          name: iconprofile['name'],
+          image: iconprofile['image']);
+      print('Paso3');
+      return ProfileModel(id: results['id'], id_user: users, icon: icons);
+    } else {
+      throw Exception();
+    }
+  }
+
+  Future<List<ProgressModel>> getProgressByUserID(int userId) async {
+    print('metodo get progress');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int? user_id = prefs.getInt('user_id');
+    var url = Uri.http(
+        'instrumaster.iothings.com.mx', '/api/v1/progress/byuser/$user_id');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<Map<String, dynamic>> resultlist = [];
+      var jsonResponse = convert.jsonDecode(response.body);
+      var results = jsonResponse;
+      print(results);
+      resultlist.addAll(List<Map<String, dynamic>>.from(results));
+      print('PRUEBA....................... 1');
+      List<ProgressModel> CoursesList = resultlist.map((result) {
+        return ProgressModel(
+          id: result['id'],
+          id_course: result['id_course'],
+          course_name: result['course_name'],
+          level: result['level'],
+          stars: result['stars'],
+          user: result['user'],
+        );
+      }).toList();
+      print('PRUEBA....................... 2');
+      return CoursesList;
+    } else {
+      throw Exception();
     }
   }
 }
