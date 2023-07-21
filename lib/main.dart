@@ -6,7 +6,7 @@ import 'package:instrumaster_v1/features/exercises/Presentation/bloc/exercise_bl
 import 'package:instrumaster_v1/features/lesson/Presentation/bloc/lesson_bloc.dart';
 import 'package:instrumaster_v1/features/users/Presentation/blocs/user_bloc.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/login.dart';
-import 'package:instrumaster_v1/features/users/Presentation/pages/passthrough.dart';
+import 'package:instrumaster_v1/onboarding/pages/onboarding.dart';
 import 'package:instrumaster_v1/usecaseconfig.dart';
 
 import 'features/resources/Presentation/bloc/resources_bloc.dart';
@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
               create: (BuildContext context) => UserAuthentication(
                   loginUseCase: usecaseConfig.loginUseCase!,
                   registerUseCase: usecaseConfig.registerUseCase!)),
+
           BlocProvider<UserBloc>(
               create: (BuildContext context) => UserBloc(
                   viewProfileUseCase: usecaseConfig.viewProfileUseCase!)),
@@ -55,6 +56,6 @@ class MyApp extends StatelessWidget {
                   getProgressByUId: usecaseConfig.getProgressByUId!)),
         ],
         child: const MaterialApp(
-            debugShowCheckedModeBanner: false, home: LoginPage()));
+            debugShowCheckedModeBanner: false, home: OnBoarding()));
   }
 }
