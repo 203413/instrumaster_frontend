@@ -180,8 +180,14 @@ class _ExercisesPageState extends State<ProfilePage> {
                                                         FontWeight.bold),
                                               ),
                                               Container(
-                                                width: 72.0,
-                                                height: 72.0,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.15,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.15,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: Color(0xFFFDBE00),
