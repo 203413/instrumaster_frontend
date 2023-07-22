@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:instrumaster_v1/features/lesson/Presentation/bloc/lesson_bloc.dart';
 import 'package:instrumaster_v1/features/lesson/Presentation/pages/single_lesson_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../exercises/Presentation/pages/exercises_page.dart';
 import '../../Domain/entities/lesson.dart';
 import '../widgets/bnavigationbar.dart';
@@ -18,6 +20,7 @@ class LessonsPage extends StatefulWidget {
 }
 
 class _LessonsPageState extends State<LessonsPage> {
+  late int stars = 0;
   @override
   void initState() {
     super.initState();
@@ -27,6 +30,26 @@ class _LessonsPageState extends State<LessonsPage> {
     //     .read<LessonsBloc>()
     //     .add(GetLessonsByCourseID(id_lesson: widget.arg));
     print(widget.arg);
+    veirfy();
+  }
+
+  Future<void> veirfy() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int? id = prefs.getInt('idprogress');
+    print("Shared 1: " + id.toString());
+    final api = "https://instrumaster.iothings.com.mx/api/v1/progress/$id";
+    final dio = Dio();
+    final Response response = await dio.get(api);
+
+    if (response.statusCode == 200) {
+      print(response.data);
+      Map<String, dynamic> responseData = response.data;
+      setState(() {
+        stars = responseData['stars'];
+      });
+    } else {
+      print("Failed to fetch data. Status code: ${response.statusCode}");
+    }
   }
 
   Widget build(BuildContext context) {
@@ -39,7 +62,6 @@ class _LessonsPageState extends State<LessonsPage> {
             child: CircularProgressIndicator(),
           );
         } else if (state is Loaded) {
-          print('AAAA...............................');
           final aux = state.lessons.toString;
           print(aux);
           List<Lesson> allLessons = state
@@ -54,7 +76,18 @@ class _LessonsPageState extends State<LessonsPage> {
               allLessons.where((lesson) => lesson.difficult == "3").toList();
 
           print("Hey" + intermediateLessons[0].lesson_name);
+          int userStars = stars;
 
+          Color begginerColor = Color(0xFFFDBE00);
+          bool intermediatedlock = false;
+          bool advancedlock = false;
+
+          if (stars > 60) {
+            intermediatedlock = true;
+          }
+          if (stars > 80) {
+            advancedlock = true;
+          }
           return SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -89,7 +122,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                       width:
                                           4.0), // Espacio entre el icono y el texto
                                   Text(
-                                    '0',
+                                    userStars.toString(),
                                     style: TextStyle(color: Colors.black),
                                   ), // Texto en el rectángulo
                                 ],
@@ -101,155 +134,11 @@ class _LessonsPageState extends State<LessonsPage> {
                     ),
                   ),
                   _lessonTittle('Principiante'),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Dos círculos por fila
-                      ),
-                      itemCount: beginnerLessons.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SingleLessonPage(
-                                        arg: beginnerLessons[index])));
-                          },
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Container(
-                                  width: 150.0,
-                                  height: 150.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0xFFFDBE00),
-                                    // Cambia el color del círculo si lo deseas
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                beginnerLessons[index].lesson_name,
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  _lessonBuild(beginnerLessons, true),
                   _lessonTittle('Intermedio'),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Dos círculos por fila
-                      ),
-                      itemCount: intermediateLessons.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SingleLessonPage(
-                                        arg: intermediateLessons[index])));
-                          },
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Container(
-                                  width: 150.0,
-                                  height: 150.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0xFFFDBE00),
-                                    // Cambia el color del círculo si lo deseas
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                intermediateLessons[index].lesson_name,
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  _lessonBuild(intermediateLessons, intermediatedlock),
                   _lessonTittle('Avanzado'),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Dos círculos por fila
-                      ),
-                      itemCount: advancedLessons.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SingleLessonPage(
-                                        arg: advancedLessons[index])));
-                          },
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Container(
-                                  width: 150.0,
-                                  height: 150.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0xFFFDBE00),
-                                    // Cambia el color del círculo si lo deseas
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                advancedLessons[index].lesson_name,
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  _lessonBuild(advancedLessons, advancedlock),
                 ],
               ),
             ),
@@ -303,5 +192,98 @@ class _LessonsPageState extends State<LessonsPage> {
         ],
       ),
     );
+  }
+
+  Widget _lessonBuild(lessons, islocked) {
+    if (islocked == true) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Dos círculos por fila
+          ),
+          itemCount: lessons.length,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SingleLessonPage(arg: lessons[index])));
+              },
+              child: Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 150.0,
+                      height: 150.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFFDBE00),
+                        // Cambia el color del círculo si lo deseas
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text(
+                    lessons[index].lesson_name,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Dos círculos por fila
+          ),
+          itemCount: lessons.length,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return Column(
+              children: [
+                Center(
+                  child: Container(
+                    width: 150.0,
+                    height: 150.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFFEE599),
+                      // Cambia el color del círculo si lo deseas
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Text(
+                  lessons[index].lesson_name,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                )
+              ],
+            );
+          },
+        ),
+      );
+    }
   }
 }

@@ -8,8 +8,10 @@ import 'package:instrumaster_v1/features/users/Presentation/blocs/user_bloc.dart
 import 'package:instrumaster_v1/features/users/Presentation/pages/login.dart';
 import 'package:instrumaster_v1/onboarding/pages/onboarding.dart';
 import 'package:instrumaster_v1/usecaseconfig.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/resources/Presentation/bloc/resources_bloc.dart';
+import 'features/users/Presentation/pages/profile.dart';
 
 UsecaseConfig usecaseConfig = UsecaseConfig();
 
@@ -19,8 +21,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -47,7 +47,6 @@ class MyApp extends StatelessWidget {
               create: (BuildContext context) => UserAuthentication(
                   loginUseCase: usecaseConfig.loginUseCase!,
                   registerUseCase: usecaseConfig.registerUseCase!)),
-
           BlocProvider<UserBloc>(
               create: (BuildContext context) => UserBloc(
                   viewProfileUseCase: usecaseConfig.viewProfileUseCase!)),
@@ -55,7 +54,42 @@ class MyApp extends StatelessWidget {
               create: (BuildContext context) => ProgressBloc(
                   getProgressByUId: usecaseConfig.getProgressByUId!)),
         ],
-        child: const MaterialApp(
-            debugShowCheckedModeBanner: false, home: OnBoarding()));
+        child:
+            const MaterialApp(debugShowCheckedModeBanner: false, home: Home()));
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<int?>(
+      future: getUserIdFromSharedPreferences(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          print(
+              'Error al obtener el usuario desde SharedPreferences: ${snapshot.error}');
+          return OnBoarding();
+        } else {
+          final int? userId = snapshot.data;
+          return userId != null ? ProfilePage() : OnBoarding();
+        }
+      },
+    );
+  }
+
+  Future<int?> getUserIdFromSharedPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id');
   }
 }

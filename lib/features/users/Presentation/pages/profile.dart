@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:instrumaster_v1/features/exercises/Presentation/bloc/answer_bloc.dart';
-import 'package:instrumaster_v1/features/exercises/Presentation/bloc/exercise_bloc.dart';
 import 'package:instrumaster_v1/features/users/Presentation/blocs/user_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../course/Presentation/pages/courses_page.dart';
@@ -155,7 +153,12 @@ class _ExercisesPageState extends State<ProfilePage> {
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return GestureDetector(
-                                          onTap: () {
+                                          onTap: () async {
+                                            final SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            await prefs.setInt("idprogress",
+                                                state.progress[index].id);
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

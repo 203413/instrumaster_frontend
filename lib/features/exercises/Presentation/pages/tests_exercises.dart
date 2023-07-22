@@ -1,8 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instrumaster_v1/features/exercises/Domain/entities/answer.dart';
 import 'package:instrumaster_v1/features/exercises/Domain/entities/exercise.dart';
 import 'package:instrumaster_v1/features/exercises/Presentation/bloc/exercise_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import '../../../lesson/Presentation/pages/quiztest.dart';
 import '../../../lesson/Presentation/widgets/bnavigationbar.dart';
 
@@ -16,27 +18,34 @@ class ExercisesPage2 extends StatefulWidget {
 
 class _ExercisesPage2State extends State<ExercisesPage2> {
   late String selectedOption = '';
+  late int Size;
+  int Correctones = 0;
+  bool areEqual = false;
   late List<String> selectedOptions =
       []; // Lista para almacenar las opciones seleccionadas
 
   bool printSelectedOption(String selectedOption, List<Answer> aux) {
-    print(selectedOption);
+    //print(selectedOption);
     bool grade = false;
     aux.asMap().forEach((index, value) {
       if (value.answer == selectedOption && value.is_correct == 1) {
         grade = true;
+        Correctones++;
       }
     });
+    if (grade == false) {
+      if (Correctones != 0) {
+        Correctones--;
+      }
+    }
+    print(grade);
     return grade;
   }
 
   @override
   void initState() {
     super.initState();
-    // BlocProvider.of<ExerciseBloc>(context)
-    //     .add(GetExercisesByLessonID(id_lesson: widget.arg));
     selectedOptions = List<String>.filled(4, '');
-    //print(widget.arg);
   }
 
   @override
@@ -58,50 +67,70 @@ class _ExercisesPage2State extends State<ExercisesPage2> {
           } else if (state is Loaded) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemCount: state.exercises.length,
-                itemBuilder: (BuildContext context, int index) {
-                  String selectedOption = selectedOptions[index];
-                  return Column(
-                    children: [
-                      ListTile(
-                        title: Text(state.exercises[index].question),
-                      ),
-                      ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: state.exercises[index].answers!.length,
-                          itemBuilder: (context, answerIndex) {
-                            String option = state
-                                .exercises[index].answers![answerIndex].answer;
-                            return RadioListTile<String>(
-                                title: Text(option),
-                                value: option,
-                                groupValue: selectedOption,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedOptions[index] =
-                                        value!; // Actualizar la opción seleccionada en la lista correspondiente al ejercicio
-                                  });
-                                });
-                          }),
-                      ElevatedButton(
-                        child: Text('Enviar respuesta'),
-                        onPressed: () {
-                          //print(index);
-                          List<Answer>? aux = state.exercises[index].answers;
-                          String selectedOption = selectedOptions[
-                              index]; // Obtener la opción seleccionada correspondiente al ejercicio
-                          if (selectedOption != null) {
-                            bool verificador =
-                                printSelectedOption(selectedOption, aux!);
-                          }
-                        },
-                      ),
-                      Divider(),
-                    ],
-                  );
-                },
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.exercises.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        String selectedOption = selectedOptions[index];
+                        Size = state.exercises.length;
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Text(state.exercises[index].question),
+                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount:
+                                    state.exercises[index].answers!.length,
+                                itemBuilder: (context, answerIndex) {
+                                  String option = state.exercises[index]
+                                      .answers![answerIndex].answer;
+                                  return RadioListTile<String>(
+                                      title: Text(option),
+                                      value: option,
+                                      groupValue: selectedOption,
+                                      onChanged: (value) {
+                                        //print('seleccionao');
+
+                                        setState(() {
+                                          selectedOptions[index] =
+                                              value!; // Actualizar la opción seleccionada en la lista correspondiente al ejercicio
+                                        });
+                                        List<Answer>? aux =
+                                            state.exercises[index].answers;
+                                        String selectedOption = selectedOptions[
+                                            index]; // Obtener la opción seleccionada correspondiente al ejercicio
+                                        if (selectedOption != null) {
+                                          bool verificador =
+                                              printSelectedOption(
+                                                  selectedOption, aux!);
+                                        }
+                                      });
+                                }),
+                            Divider(),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      checkEquality(state.exercises);
+                      print(Correctones.toString() + "/" + Size.toString());
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: areEqual
+                          ? MaterialStateProperty.all<Color>(
+                              Colors.green) // Color cuando son iguales
+                          : MaterialStateProperty.all<Color>(
+                              Colors.blue), // Color por defecto
+                    ),
+                    child: Text(areEqual ? 'Correcto' : 'Verificar respuestas'),
+                  ),
+                ],
               ),
             );
           } else if (state is Error) {
@@ -118,21 +147,89 @@ class _ExercisesPage2State extends State<ExercisesPage2> {
     );
   }
 
-  // void printSelectedOption() {
-  //   print(selectedOption);
-  //   Navigator.push(context, MaterialPageRoute(builder: (context) => quiz()));
-  // }
+  Future<void> checkEquality(List<Exercise> exercises) async {
+    // print(exercises[0].question);
+    // print(exercises[1].question);
+    print('holaaaaaa');
+    if (Size == Correctones) {
+      print('dar estrellas');
+      _verify(exercises);
+      setState(() {
+        areEqual = true;
+      });
+    } else {
+      print('no dar');
+    }
+  }
 
-  Widget _opcionesTile(String opcion) {
-    return RadioListTile<String>(
-      title: Text(opcion),
-      value: opcion,
-      groupValue: selectedOption,
-      onChanged: (value) {
-        setState(() {
-          selectedOption = value!;
+  Future<void> _verify(List<Exercise> exercises) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int? id = prefs.getInt('idprogress');
+    final api = "https://instrumaster.iothings.com.mx/api/v1/progress/$id";
+    final dio = Dio();
+    final Response response = await dio.get(api);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = response.data;
+      List<int> questionCompletedList =
+          List<int>.from(responseData['question_completed']);
+
+      int stars = responseData['stars'];
+
+      print("Question Completed: $questionCompletedList");
+      int aux = 0;
+      exercises.forEach((element) {
+        if (questionCompletedList.contains(element.id)) {
+          aux++;
+        }
+      });
+      print(aux);
+      if (aux == 0) {
+        exercises.forEach((element) async {
+          int idApi = element.id;
+          final api2 =
+              "https://instrumaster.iothings.com.mx/api/v1/progress/complete/question/$id";
+          final data = {
+            "question_id": idApi,
+          };
+          final Response response2 = await dio.patch(api2, data: data);
+          if (response2.statusCode == 200) {
+            print(response.data);
+          } else {
+            print(response.statusCode);
+          }
         });
-      },
-    );
+        int userStars = stars + 10;
+        final api3 = "https://instrumaster.iothings.com.mx/api/v1/progress/$id";
+        final data2 = {
+          "stars": userStars,
+        };
+        final Response response3 = await dio.patch(api3, data: data2);
+        if (response3.statusCode == 200) {
+          print(response.data);
+        } else {
+          print(response.data);
+        }
+      }
+
+      // if (questionCompletedList.contains(widget.arg.id)) {
+      //   print("No dar estrellas");
+      // } else {
+      //   print("Dar estrellas");
+      //   final api2 =
+      //       "https://instrumaster.iothings.com.mx/api/v1/progress/complete/question/$id";
+      //   final data = {
+      //     "question_id": widget.arg.id,
+      //   };
+      //   final Response response2 = await dio.patch(api2, data: data);
+      //   if (response2.statusCode == 200) {
+      //     print(response.data);
+      //   } else {
+      //     print(response.data);
+      //   }
+      // }
+    } else {
+      print("Failed to fetch data. Status code: ${response.statusCode}");
+    }
   }
 }

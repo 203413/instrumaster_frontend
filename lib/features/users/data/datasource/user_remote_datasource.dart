@@ -50,7 +50,7 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
   Future<void> logout(User user) async {}
   Future<void> register(User user) async {
     print("Entro exitosamente al metodo register");
-    var url = Uri.http(ip, '/api/v1/register/');
+    var url = Uri.https(ip, '/api/v1/register/');
     var body = {
       'username': user.username,
       'email': user.email,

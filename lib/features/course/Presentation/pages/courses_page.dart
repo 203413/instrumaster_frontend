@@ -52,7 +52,7 @@ class _CoursesPageState extends State<CoursesPage> {
       Map<String, dynamic> postData = {
         "id_course": idSelected,
         "course_name": state.course_name.toString(),
-        "stars": 30,
+        "stars": 0,
         "level": 1,
         "user": user_id
       };
@@ -60,6 +60,11 @@ class _CoursesPageState extends State<CoursesPage> {
       var response2 = await http.post(url2, body: body, headers: headers);
       if (response2.statusCode == 201) {
         print('Respuesta del servidor: ${response2.body}');
+        //print(response2.body['id']);
+        var jsonResponse = json.decode(response2.body);
+        int aux = jsonResponse['id'];
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setInt("idprogress", aux);
         Navigator.push(
             context,
             MaterialPageRoute(

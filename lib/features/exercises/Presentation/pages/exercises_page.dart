@@ -64,12 +64,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         print(state.answers[0].id.toString());
                         print('holaaaaa2');
                         return Column(
-                          // children: state.answers.map((answers) {
-                          //   //print(answers.id);
-                          //   return Container(
-                          //     child: Text(answers.id.toString()),
-                          //   );
-                          // }).toList(),
                           children: [Text(state.answers[1].id.toString())],
                         );
                       } else if (state is Error1) {

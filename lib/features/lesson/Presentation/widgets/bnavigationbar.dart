@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instrumaster_v1/features/users/Presentation/pages/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../users/Presentation/pages/profile.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
+  Future<void> _logOut(context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const LoginPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +48,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
+              icon: GestureDetector(
+                  onTap: () {
+                    _logOut(context);
+                  },
+                  child: Icon(Icons.search)),
               label: 'Search',
             ),
             BottomNavigationBarItem(
