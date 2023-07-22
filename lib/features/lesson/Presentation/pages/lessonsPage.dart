@@ -225,12 +225,11 @@ class _LessonsPageState extends State<LessonsPage> {
                         color: Color(0xFFFDBE00),
                         // Cambia el color del círculo si lo deseas
                       ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: SvgPicture.asset('assets/images/' +
+                            lessons[index].lesson_icon +
+                            ".svg"),
                       ),
                     ),
                   ),
@@ -266,12 +265,13 @@ class _LessonsPageState extends State<LessonsPage> {
                       color: Color(0xFFFEE599),
                       // Cambia el color del círculo si lo deseas
                     ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                        ),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: SvgPicture.asset(
+                        'assets/images/' + lessons[index].lesson_icon + ".svg",
+                        // ignore: deprecated_member_use
+                        color: Colors.black38,
+                      ),
                     ),
                   ),
                 ),

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:instrumaster_v1/features/users/Presentation/blocs/user_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../course/Presentation/pages/courses_page.dart';
@@ -195,6 +196,12 @@ class _ExercisesPageState extends State<ProfilePage> {
                                                   shape: BoxShape.circle,
                                                   color: Color(0xFFFDBE00),
                                                   // Cambia el color del círculo si lo deseas
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      15.0),
+                                                  child: SvgPicture.asset(
+                                                      'assets/images/musicnote.svg'),
                                                 ),
                                               ),
                                             ],

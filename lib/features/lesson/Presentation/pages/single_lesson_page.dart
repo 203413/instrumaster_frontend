@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:instrumaster_v1/features/resources/Domain/entities/resources.dart';
 import 'package:instrumaster_v1/features/resources/Presentation/bloc/resources_bloc.dart';
 import 'package:line_icons/line_icons.dart';
@@ -54,6 +55,13 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
                         shape: BoxShape.circle,
                         color: Color(0xFFFDBE00),
                         // Cambia el color del círculo si lo deseas
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: SvgPicture.asset(
+                          'assets/images/' + widget.arg.lesson_icon + ".svg",
+                          // ignore: deprecated_member_use
+                        ),
                       ),
                     ),
                   ),
