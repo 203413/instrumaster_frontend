@@ -161,6 +161,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextField(
                             controller: _password,
+                            obscureText: true,
+                            keyboardType: TextInputType.text,
                             decoration: const InputDecoration(
                                 suffixIcon: Icon(LineIcons.eye),
                                 border: InputBorder.none,
