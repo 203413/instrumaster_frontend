@@ -78,8 +78,7 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
       print('Datos de perfil recibidos');
       //List<Map<String, dynamic>> resultlist = [];
       var jsonResponse = convert.jsonDecode(response.body);
-      var results = jsonResponse;
-      print(results);
+      var results = jsonResponse;;
       if (results == null) {
         print('datos nulso');
       }
@@ -116,7 +115,6 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
       List<Map<String, dynamic>> resultlist = [];
       var jsonResponse = convert.jsonDecode(response.body);
       var results = jsonResponse;
-      print(results);
       resultlist.addAll(List<Map<String, dynamic>>.from(results));
       print('PRUEBA....................... 1');
       List<ProgressModel> CoursesList = resultlist.map((result) {

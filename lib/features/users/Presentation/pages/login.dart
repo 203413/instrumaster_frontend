@@ -50,13 +50,10 @@ class _LoginPageState extends State<LoginPage> {
     Response response;
     response = await dio.post(api, data: data);
     if (response.statusCode == 200) {
-      print(response.data);
       Map<String, dynamic> responseData = response.data;
       print("yeaaaaaah");
-      print(responseData);
       int id = responseData['id'];
       String token = responseData['token'];
-      print(id.toString() + token);
       await prefs.setString("Token", token);
       await prefs.setInt("user_id", id);
       print('PREFERENCIAS COMPARTIDAS PRUEBA' +
