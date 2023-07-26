@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instrumaster_v1/features/exercises/Presentation/bloc/answer_bloc.dart';
 import 'package:instrumaster_v1/features/exercises/Presentation/bloc/exercise_bloc.dart';
-import '../../../lesson/Presentation/pages/quiztest.dart';
 import '../../../lesson/Presentation/widgets/bnavigationbar.dart';
 
 class ExercisesPage extends StatefulWidget {
@@ -89,11 +88,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
         }
       }),
     );
-  }
-
-  void printSelectedOption() {
-    print(selectedOption);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => quiz()));
   }
 
   Widget _opcionesTile(String opcion) {

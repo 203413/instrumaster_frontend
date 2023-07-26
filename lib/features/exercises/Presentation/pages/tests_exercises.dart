@@ -103,7 +103,9 @@ class _ExercisesPage2State extends State<ExercisesPage2> {
                                             state.exercises[index].answers;
                                         String selectedOption = selectedOptions[
                                             index]; // Obtener la opción seleccionada correspondiente al ejercicio
+                                        // ignore: unnecessary_null_comparison
                                         if (selectedOption != null) {
+                                          // ignore: unused_local_variable
                                           bool verificador =
                                               printSelectedOption(
                                                   selectedOption, aux!);
