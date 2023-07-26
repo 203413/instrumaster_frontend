@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:instrumaster_v1/features/users/Presentation/pages/login.dart';
 import 'package:line_icons/line_icons.dart';
 import '../widgets/userWidgets.dart';
@@ -20,6 +21,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _passwordAgain = TextEditingController();
+  bool _isPasswordlenValid = false;
+  bool _isPasswordContainsDigit = false;
+  bool _isPasswordContainsSpecialChar = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool isChecked = false;
   @override
@@ -127,6 +131,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           TextField(
                             controller: _password,
+                            onChanged: (text) {
+                              setState(() {
+                                _isPasswordlenValid = text.length >= 8;
+                              });
+                            },
+                            obscureText: true,
                             decoration: const InputDecoration(
                                 suffixIcon: Icon(LineIcons.eye),
                                 border: InputBorder.none,
@@ -144,6 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           TextField(
                             controller: _passwordAgain,
+                            obscureText: true,
                             decoration: const InputDecoration(
                                 suffixIcon: Icon(LineIcons.eye),
                                 border: InputBorder.none,
@@ -170,25 +181,53 @@ class _RegisterPageState extends State<RegisterPage> {
                               padding: const EdgeInsets.only(top: 16),
                               child: SizedBox(
                                 width: 150,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    register(
-                                      _mail.text,
-                                      _username.text,
-                                      _password.text,
-                                      _passwordAgain.text,
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFFFDBE00),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30))),
-                                  child: const Text(
-                                    'Register',
-                                    style: TextStyle(fontSize: 24),
-                                  ),
-                                ),
+                                child: (_mail.text == "" ||
+                                        _username.text == "" ||
+                                        _password.text == "" ||
+                                        _passwordAgain.text == "")
+                                    ? ElevatedButton(
+                                        onPressed: () {
+                                          Fluttertoast.showToast(
+                                              msg: "Rellena todos los campos",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor:
+                                                  Color(0xFFFDBE00),
+                                              textColor: Colors.black,
+                                              fontSize: 16.0);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Color.fromARGB(
+                                                255, 244, 230, 188),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30))),
+                                        child: const Text(
+                                          'Register',
+                                          style: TextStyle(fontSize: 24),
+                                        ),
+                                      )
+                                    : ElevatedButton(
+                                        onPressed: () {
+                                          register(
+                                            _mail.text,
+                                            _username.text,
+                                            _password.text,
+                                            _passwordAgain.text,
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xFFFDBE00),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30))),
+                                        child: const Text(
+                                          'Register',
+                                          style: TextStyle(fontSize: 24),
+                                        ),
+                                      ),
                               ),
                             ),
                           ),
@@ -234,15 +273,62 @@ class _RegisterPageState extends State<RegisterPage> {
     if (mail == '' && username == '' && password == '' && password2 == '') {
       showAlertDialog("registro fallido", "Completa todos los campos", context);
     } else {
-      var user = User(
-        id_user: 0,
-        username: username,
-        email: mail,
-        password: password,
-      );
-      BlocProvider.of<UserAuthentication>(context).add(Register(user: user));
-      showAlertDialog(
-          "Registrado con exito", "Por favor, inicia sesion ahora", context);
+      if (password != password2) {
+        Fluttertoast.showToast(
+          msg: "Las contraseñas no coinciden",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color(0xFFFDBE00),
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      } else {
+        if (password.length < 8) {
+          Fluttertoast.showToast(
+            msg: "La contraseña debe tener al menos 8 caracteres",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color(0xFFFDBE00),
+            textColor: Colors.black,
+            fontSize: 16.0,
+          );
+        } else if (!isValidPassword(password)) {
+          Fluttertoast.showToast(
+            msg:
+                "La contraseña debe contener al menos un dígito y un carácter especial (#, !, %, &, o =)",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color(0xFFFDBE00),
+            textColor: Colors.black,
+            fontSize: 16.0,
+          );
+        } else {
+          var user = User(
+            id_user: 0,
+            username: username,
+            email: mail,
+            password: password,
+          );
+          BlocProvider.of<UserAuthentication>(context)
+              .add(Register(user: user));
+          showAlertDialog(
+            "Registrado con éxito",
+            "Por favor, inicia sesión ahora",
+            context,
+          );
+        }
+      }
     }
+  }
+
+  bool isValidPassword(String password) {
+    // Definir la expresión regular para validar la contraseña
+    RegExp regex = RegExp(r'^(?=.*\d)(?=.*[!#%&=]).*$');
+
+    // Verificar si la contraseña cumple con el patrón
+    return regex.hasMatch(password);
   }
 }

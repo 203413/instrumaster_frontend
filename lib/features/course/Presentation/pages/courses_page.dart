@@ -31,7 +31,7 @@ class _CoursesPageState extends State<CoursesPage> {
 
   _verify(CourseModel state) async {
     int idSelected = state.id;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     final int? user_id = prefs.getInt('user_id');
     var url = Uri.http(
         'instrumaster.iothings.com.mx', '/api/v1/progress/byuser/$user_id');
