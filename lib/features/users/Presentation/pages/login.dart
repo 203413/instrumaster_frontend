@@ -28,6 +28,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  bool hidepsw = true;
 
   @override
   void setState(VoidCallback fn) {
@@ -158,15 +159,32 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextField(
                             controller: _password,
-                            obscureText: true,
+                            obscureText: hidepsw,
                             keyboardType: TextInputType.text,
-                            decoration: const InputDecoration(
-                                suffixIcon: Icon(LineIcons.eye),
-                                border: InputBorder.none,
-                                filled: true,
-                                fillColor: Color(
-                                  0x40FDBE00,
-                                )),
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (hidepsw == true) {
+                                      hidepsw = false;
+                                    } else {
+                                      hidepsw = true;
+                                    }
+                                  });
+                                },
+                                icon: Icon(
+                                  hidepsw
+                                      ? LineIcons.eye
+                                      : LineIcons.eyeSlashAlt,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ),
+                              border: InputBorder.none,
+                              filled: true,
+                              fillColor: Color(
+                                0x40FDBE00,
+                              ),
+                            ),
                           ),
                           Center(
                             child: Padding(

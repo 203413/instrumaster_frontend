@@ -11,7 +11,7 @@ class OnBoarding extends StatefulWidget {
 
 class _OnBoardingState extends State<OnBoarding> {
   int currentPage = 0;
-  late PageController _controller = PageController();
+  late PageController _controller;
 
   @override
   void initState() {
@@ -65,24 +65,57 @@ class _OnBoardingState extends State<OnBoarding> {
                             const SizedBox(
                               height: 25,
                             ),
-                            Text(
-                              contents[i].title,
-                              style: const TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.2),
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      contents[i].title,
+                                      style: const TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            Color.fromARGB(255, 249, 249, 249),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text(
+                                      contents[i].description,
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      contents[i].description2,
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      contents[i].description3,
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              contents[i].description,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.grey,
-                              ),
-                            ),
+                            )
                           ],
                         ),
                       ],
@@ -111,17 +144,15 @@ class _OnBoardingState extends State<OnBoarding> {
                   ),
                   child: MaterialButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
+                      _controller.previousPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.bounceIn,
                       );
                     },
                     child: const Text(
-                      'Saltar',
+                      'Ant.',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 20,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -152,7 +183,7 @@ class _OnBoardingState extends State<OnBoarding> {
                               ),
                             )
                           : _controller.nextPage(
-                              duration: const Duration(milliseconds: 200),
+                              duration: const Duration(milliseconds: 300),
                               curve: Curves.bounceIn,
                             );
                       print('Hello');

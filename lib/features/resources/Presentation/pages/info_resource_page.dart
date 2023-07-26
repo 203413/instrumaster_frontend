@@ -60,7 +60,7 @@ class _InfoResourcesPageState extends State<InfoResourcesPage> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.arg.description,
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18, fontFamily: 'Readex Pro'),
               ),
             ),
             Image.network(widget.arg.multimedia)

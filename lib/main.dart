@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
                   getProgressByUId: usecaseConfig.getProgressByUId!)),
         ],
         child:
-            const MaterialApp(debugShowCheckedModeBanner: false, home: Home()));
+             MaterialApp(debugShowCheckedModeBanner: false,theme: ThemeData(fontFamily: 'Readex Pro'), home: Home()));
   }
 }
 

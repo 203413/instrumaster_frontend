@@ -117,11 +117,12 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
                                             SizedBox(
                                               width: 20,
                                             ),
-                                            Text(
-                                              resources.name,
-                                              style: TextStyle(fontSize: 24),
+                                            Expanded(
+                                              child: Text(
+                                                resources.name,
+                                                style: TextStyle(fontSize: 22),
+                                              ),
                                             ),
-                                            Expanded(child: SizedBox()),
                                             Icon(
                                               LineIcons.playCircle,
                                               size: 35,
@@ -182,10 +183,9 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
                                             Expanded(
                                               child: Text(
                                                 resources.name,
-                                                style: TextStyle(fontSize: 24),
+                                                style: TextStyle(fontSize: 22),
                                               ),
                                             ),
-                                            Expanded(child: SizedBox()),
                                             Icon(
                                               LineIcons.infoCircle,
                                               size: 35,
@@ -265,11 +265,13 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
                                               SizedBox(
                                                 width: 20,
                                               ),
-                                              Text(
-                                                'Preguntas',
-                                                style: TextStyle(fontSize: 24),
+                                              Expanded(
+                                                child: Text(
+                                                  'Preguntas',
+                                                  style:
+                                                      TextStyle(fontSize: 22),
+                                                ),
                                               ),
-                                              Expanded(child: SizedBox()),
                                               Icon(
                                                 LineIcons.questionCircle,
                                                 size: 35,
