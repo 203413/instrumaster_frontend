@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:instrumaster_v1/features/lesson/Presentation/pages/audiotest.dart';
 import 'package:instrumaster_v1/features/resources/Domain/entities/resources.dart';
 import 'package:instrumaster_v1/features/resources/Presentation/bloc/resources_bloc.dart';
 import 'package:line_icons/line_icons.dart';
@@ -291,6 +292,15 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
                                 }
                               }),
                             ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => audio()));
+                              },
+                              child: Text('heya'),
+                            )
                           ],
                         ),
                       ),
