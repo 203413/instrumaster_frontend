@@ -1,4 +1,5 @@
 import 'dart:convert' as convert;
+import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
@@ -15,8 +16,7 @@ class ResourceRemoteDataSourceImp implements ResourceRemoteDataSource {
   @override
   Future<List<ResourceModel>> getResourceByLessonID(String id_lesson) async {
     //print('DataSource');
-    var url =
-        Uri.http(serverURL, '/api/v1/resources/bylesson/$id_lesson');
+    var url = Uri.http(serverURL, '/api/v1/resources/bylesson/$id_lesson');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -33,9 +33,9 @@ class ResourceRemoteDataSourceImp implements ResourceRemoteDataSource {
         return ResourceModel(
             id: result['id'],
             id_lesson: result['id_lesson'],
-            name: result['name'],
+            name: utf8.decode(result['name'].codeUnits),
             resource_type: result['resource_type'],
-            description: result['description'],
+            description: utf8.decode(result['description'].codeUnits),
             multimedia: result['multimedia']);
       }).toList();
       print('Datos de recursos enviados');

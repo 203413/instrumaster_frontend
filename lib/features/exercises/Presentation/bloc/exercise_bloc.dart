@@ -9,10 +9,12 @@ part 'exercise_state.dart';
 class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
   final GetExerciseByLIdUsecase getExerciseByLIdUsecase;
 
-  ExerciseBloc({required this.getExerciseByLIdUsecase}) : super(Loading()) {
+  ExerciseBloc({required this.getExerciseByLIdUsecase})
+      : super(InitialState()) {
     on<ExerciseEvent>((event, emit) async {
       if (event is GetExercisesByLessonID) {
         try {
+          emit(Loading());
           List<Exercise> response =
               await getExerciseByLIdUsecase.execute(event.id_lesson);
           emit(Loaded(exercises: response));

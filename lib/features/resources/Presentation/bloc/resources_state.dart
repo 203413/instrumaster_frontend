@@ -3,6 +3,8 @@ part of 'resources_bloc.dart';
 @immutable
 abstract class ResourceState {}
 
+class InitialStateR extends ResourceState {}
+
 class LoadingR extends ResourceState {}
 
 class LoadedR extends ResourceState {

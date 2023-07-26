@@ -9,10 +9,12 @@ part 'answer_state.dart';
 class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
   final GetFourAnswerByEIdUsecase getFourAnswerByEIdUsecase;
 
-  AnswerBloc({required this.getFourAnswerByEIdUsecase}) : super(Loading1()) {
+  AnswerBloc({required this.getFourAnswerByEIdUsecase})
+      : super(InitialState1()) {
     on<AnswerEvent>((event, emit) async {
       if (event is GetFourAnswerByExersiceID) {
         try {
+          emit(Loading1());
           List<Answer> response =
               await getFourAnswerByEIdUsecase.execute(event.id_exercise);
           emit(Loaded1(answers: response));
