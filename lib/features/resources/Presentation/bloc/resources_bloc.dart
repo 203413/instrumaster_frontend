@@ -9,10 +9,12 @@ part 'resources_state.dart';
 class ResourceBloc extends Bloc<ResourceEvent, ResourceState> {
   final GetResourceByLIdUsecase getResourceByLIdUsecase;
 
-  ResourceBloc({required this.getResourceByLIdUsecase}) : super(LoadingR()) {
+  ResourceBloc({required this.getResourceByLIdUsecase})
+      : super(InitialStateR()) {
     on<ResourceEvent>((event, emit) async {
       if (event is GetResourceByLessonID) {
         try {
+          emit(LoadingR());
           List<Resource> response =
               await getResourceByLIdUsecase.execute(event.id_lesson);
           emit(LoadedR(resources: response));

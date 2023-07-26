@@ -9,10 +9,11 @@ part 'lesson_state.dart';
 class LessonsBloc extends Bloc<LessonEvent, LessonStatet> {
   final GetLessonByCIdUsecase getLessonByCIdUsecase;
 
-  LessonsBloc({required this.getLessonByCIdUsecase}) : super(Loading()) {
+  LessonsBloc({required this.getLessonByCIdUsecase}) : super(InitialState()) {
     on<LessonEvent>((event, emit) async {
       if (event is GetLessonsByCourseID) {
         try {
+          emit(Loading());
           List<Lesson> response =
               await getLessonByCIdUsecase.execute(event.id_lesson);
           emit(Loaded(lessons: response));

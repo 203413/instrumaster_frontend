@@ -3,6 +3,8 @@ part of 'courses_bloc.dart';
 @immutable
 abstract class CoursesState {}
 
+class InitialState extends CoursesState {}
+
 class Loading extends CoursesState {}
 
 class Loaded extends CoursesState {

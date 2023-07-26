@@ -146,7 +146,7 @@ class _LessonsPageState extends State<LessonsPage> {
         } else if (state is Error) {
           print(state.error);
           return Center(
-            child: Text(state.error, style: const TextStyle(color: Colors.red)),
+            child: Text('Todavia no hay lecciones para este curso, vuelva pronto', style: const TextStyle(color: Color(0xFFFDBE00))),
           );
         } else {
           return Container();
@@ -218,15 +218,15 @@ class _LessonsPageState extends State<LessonsPage> {
                 children: [
                   Center(
                     child: Container(
-                      width: 150.0,
-                      height: 150.0,
+                      width: 115.0,
+                      height: 115.0,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Color(0xFFFDBE00),
                         // Cambia el color del círculo si lo deseas
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(30.0),
+                        padding: const EdgeInsets.all(25.0),
                         child: SvgPicture.asset('assets/images/' +
                             lessons[index].lesson_icon +
                             ".svg"),
@@ -258,15 +258,15 @@ class _LessonsPageState extends State<LessonsPage> {
               children: [
                 Center(
                   child: Container(
-                    width: 150.0,
-                    height: 150.0,
+                    width: 115.0,
+                    height: 115.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color(0xFFFEE599),
                       // Cambia el color del círculo si lo deseas
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(30.0),
+                      padding: const EdgeInsets.all(25.0),
                       child: SvgPicture.asset(
                         'assets/images/' + lessons[index].lesson_icon + ".svg",
                         // ignore: deprecated_member_use

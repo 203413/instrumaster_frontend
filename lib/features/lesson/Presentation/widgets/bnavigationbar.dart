@@ -49,25 +49,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: GestureDetector(
-                  onTap: () {
-                    _logOut(context);
-                  },
-                  child: Icon(Icons.search)),
+                onTap: () {
+                  _logOut(context);
+                },
+                child: SvgPicture.asset('assets/images/gear-svgrepo-com 2.svg'),
+              ),
               label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: GestureDetector(
-                  onTap: () {
-                    print('hola');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ProfilePage(),
-                      ),
-                    );
-                  },
-                  child: Icon(Icons.person)),
-              label: 'Profile',
             ),
           ],
         ),

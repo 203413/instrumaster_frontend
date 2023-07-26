@@ -19,7 +19,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
     super.initState();
     BlocProvider.of<ExerciseBloc>(context)
         .add(GetExercisesByLessonID(id_lesson: widget.arg));
-    //print(widget.arg);
   }
 
   @override
@@ -33,7 +32,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
             child: CircularProgressIndicator(),
           );
         } else if (state is Loaded) {
-          //print(state.exercises);
           return SingleChildScrollView(
             child: Column(
                 children: state.exercises.map((exercise) {

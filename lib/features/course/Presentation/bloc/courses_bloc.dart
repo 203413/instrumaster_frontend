@@ -10,10 +10,11 @@ part 'courses_state.dart';
 class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   final GetCoursesUsecase getCoursesUsecase;
 
-  CoursesBloc({required this.getCoursesUsecase}) : super(Loading()) {
+  CoursesBloc({required this.getCoursesUsecase}) : super(InitialState()) {
     on<CoursesEvent>((event, emit) async {
       if (event is GetCourses) {
         try {
+          emit(Loading());
           List<Course> response = await getCoursesUsecase.execute();
           emit(Loaded(courses: response));
         } catch (e) {
