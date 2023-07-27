@@ -57,18 +57,22 @@ class _OnBoardingState extends State<OnBoarding> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Image(
-                              image: AssetImage(contents[i].image),
-                              fit: BoxFit.fill,
-                              width: double.infinity,
-                            ),
-                            const SizedBox(
-                              height: 25,
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight:
+                                    (MediaQuery.of(context).size.height) * 0.6,
+                              ),
+                              child: Image(
+                                image: AssetImage(contents[i].image),
+                                fit: BoxFit.fill,
+                                width: double.infinity,
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width * 0.2),
+                                left: MediaQuery.of(context).size.width * 0.2,
+                                top: MediaQuery.of(context).size.height * 0.02,
+                              ),
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,9 +85,6 @@ class _OnBoardingState extends State<OnBoarding> {
                                         color:
                                             Color.fromARGB(255, 249, 249, 249),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
                                     ),
                                     Text(
                                       contents[i].description,
