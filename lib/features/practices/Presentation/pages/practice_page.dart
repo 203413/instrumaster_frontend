@@ -20,6 +20,7 @@ class PracticePage extends StatefulWidget {
 class _PracticePageState extends State<PracticePage> {
   String switchText = 'Presiona para grabar';
   final recorder = FlutterSoundRecorder();
+  bool isTrue = false;
   bool isRecorderReady = false;
   late File audiopath;
   @override
@@ -93,10 +94,12 @@ class _PracticePageState extends State<PracticePage> {
           print('coincideen');
           setState(() {
             switchText = 'Correcto!';
+            isTrue = true;
           });
         } else {
           setState(() {
             switchText = 'Vuelva a intentarlo';
+            isTrue = false;
           });
         }
       } else {
@@ -137,42 +140,72 @@ class _PracticePageState extends State<PracticePage> {
                 ],
               ),
             ),
-            Center(
-              child: GestureDetector(
-                  onTap: () async {
-                    print('object');
-                    if (recorder.isRecording) {
-                      await stop();
-                    } else {
-                      await record();
-                    }
-
-                    setState(() {});
-                  },
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFFDBE00),
-                      // Cambia el color del círculo si lo deseas
-                    ),
-                    child: Icon(
-                      recorder.isRecording ? Icons.stop : Icons.mic,
-                      size: 100,
-                    ),
-                  )),
-            ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                switchText,
-                style: TextStyle(fontSize: 20),
+              padding: const EdgeInsets.only(top: 30),
+              child: Center(
+                child: GestureDetector(
+                    onTap: () async {
+                      print('object');
+                      if (recorder.isRecording) {
+                        await stop();
+                      } else {
+                        await record();
+                      }
+
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFFDBE00),
+                        // Cambia el color del círculo si lo deseas
+                      ),
+                      child: Icon(
+                        recorder.isRecording ? Icons.stop : Icons.mic,
+                        size: 150,
+                      ),
+                    )),
               ),
-            )
+            ),
+            _resultText()
           ],
         ),
       ),
     );
+  }
+
+  Widget _resultText() {
+    if (isTrue == false) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          switchText,
+          style: TextStyle(fontSize: 30),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              LineIcons.checkCircle,
+              color: Color(0xFFFDBE00),
+              size: 50,
+            ),
+            Text(
+              switchText,
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Color(0xFFFDBE00),
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

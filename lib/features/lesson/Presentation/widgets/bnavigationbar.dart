@@ -52,7 +52,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 onTap: () {
                   _logOut(context);
                 },
-                child: SvgPicture.asset('assets/images/gear-svgrepo-com 2.svg'),
+                child: SvgPicture.asset(
+                  'assets/images/logout.svg',
+                  width: 60,
+                ),
               ),
               label: 'Search',
             ),
