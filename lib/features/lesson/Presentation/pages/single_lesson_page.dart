@@ -51,322 +51,330 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
           child: Column(
             children: [
               Expanded(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30.0, bottom: 10),
-                      child: Center(
-                        child: Container(
-                          width: 150.0,
-                          height: 150.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFFFDBE00),
-                            // Cambia el color del círculo si lo deseas
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: SvgPicture.asset(
-                              'assets/images/' +
-                                  widget.arg.lesson_icon +
-                                  ".svg",
-                              // ignore: deprecated_member_use
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30.0, bottom: 10),
+                        child: Center(
+                          child: Container(
+                            width: 150.0,
+                            height: 150.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFFFDBE00),
+                              // Cambia el color del círculo si lo deseas
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: SvgPicture.asset(
+                                'assets/images/' +
+                                    widget.arg.lesson_icon +
+                                    ".svg",
+                                // ignore: deprecated_member_use
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Text(
-                      widget.arg.lesson_name,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 60, right: 60, top: 60),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              child: BlocBuilder<ResourceBloc, ResourceState>(
-                                  builder: (context, state) {
-                                if (state is LoadingR) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (state is LoadedR) {
-                                  List<Resource> allResources = state.resources;
-                                  List<Resource> videoResources = allResources
-                                      .where((lesson) =>
-                                          lesson.resource_type == "video")
-                                      .toList();
-                                  return Column(
-                                    children: videoResources.map((resources) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      VideoResourcesPage(
-                                                          arg: resources)));
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              LineIcons.square,
-                                              color: Color(0xFFFDBE00),
-                                              size: 30,
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                resources.name,
-                                                style: TextStyle(fontSize: 22),
-                                              ),
-                                            ),
-                                            Icon(
-                                              LineIcons.playCircle,
-                                              size: 35,
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  );
-                                } else if (state is ErrorR) {
-                                  print(state.error);
-                                  return Center(
-                                    child: Text(state.error,
-                                        style:
-                                            const TextStyle(color: Colors.red)),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              }),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              child: BlocBuilder<ResourceBloc, ResourceState>(
-                                  builder: (context, state) {
-                                if (state is LoadingR) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (state is LoadedR) {
-                                  List<Resource> allResources = state.resources;
-                                  List<Resource> infoResources = allResources
-                                      .where((lesson) =>
-                                          lesson.resource_type == "capsula")
-                                      .toList();
-                                  return Column(
-                                    children: infoResources.map((resources) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      InfoResourcesPage(
-                                                          arg: resources)));
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              LineIcons.square,
-                                              color: Color(0xFFFDBE00),
-                                              size: 30,
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                resources.name,
-                                                style: TextStyle(fontSize: 22),
-                                              ),
-                                            ),
-                                            Icon(
-                                              LineIcons.infoCircle,
-                                              size: 35,
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  );
-                                } else if (state is ErrorR) {
-                                  print(state.error);
-                                  return Center(
-                                    child: Text(state.error,
-                                        style:
-                                            const TextStyle(color: Colors.red)),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              }),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              child: BlocBuilder<PracticeBloc, PracticeState>(
-                                  builder: (context, state) {
-                                if (state is LoadingP) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (state is LoadedP) {
-                                  return Column(
-                                    children: state.practices.map((practices) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PracticePage(
-                                                          arg: practices)));
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              LineIcons.square,
-                                              color: Color(0xFFFDBE00),
-                                              size: 30,
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                "Tocar acorde: " +
-                                                    practices.acordeATocar,
-                                                style: TextStyle(fontSize: 22),
-                                              ),
-                                            ),
-                                            Icon(
-                                              LineIcons.playCircle,
-                                              size: 35,
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  );
-                                } else if (state is ErrorP) {
-                                  print(state.error);
-                                  return Center(
-                                    child: Text(state.error,
-                                        style:
-                                            const TextStyle(color: Colors.red)),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              }),
-                            ),
-                            // SEPARADOR
-                            // Row(
-                            //   children: [
-                            //     Icon(
-                            //       LineIcons.square,
-                            //       color: Color(0xFFFDBE00),
-                            //       size: 30,
-                            //     ),
-                            //     SizedBox(
-                            //       width: 20,
-                            //     ),
-                            //     Text(
-                            //       'Ejercicio',
-                            //       style: TextStyle(fontSize: 24),
-                            //     ),
-                            //     Expanded(child: SizedBox()),
-                            //     Icon(
-                            //       LineIcons.music,
-                            //       size: 35,
-                            //     )
-                            //   ],
-                            // ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              child: BlocBuilder<ExerciseBloc, ExerciseState>(
-                                  builder: (context, state) {
-                                if (state is Loading) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (state is Loaded) {
-                                  if (state.exercises.length == 0) {
-                                    return Container();
-                                  } else {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        print('hola');
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ExercisesPage2(
-                                                        arg: state
-                                                            .exercises[0])));
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            LineIcons.square,
-                                            color: Color(0xFFFDBE00),
-                                            size: 30,
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              'Preguntas',
-                                              style: TextStyle(fontSize: 22),
-                                            ),
-                                          ),
-                                          Icon(
-                                            LineIcons.questionCircle,
-                                            size: 35,
-                                          )
-                                        ],
-                                      ),
+                      Text(
+                        widget.arg.lesson_name,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 60, right: 60, top: 60),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 20, bottom: 20),
+                                child: BlocBuilder<ResourceBloc, ResourceState>(
+                                    builder: (context, state) {
+                                  if (state is LoadingR) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
                                     );
+                                  } else if (state is LoadedR) {
+                                    List<Resource> allResources =
+                                        state.resources;
+                                    List<Resource> videoResources = allResources
+                                        .where((lesson) =>
+                                            lesson.resource_type == "video")
+                                        .toList();
+                                    return Column(
+                                      children: videoResources.map((resources) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VideoResourcesPage(
+                                                            arg: resources)));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                LineIcons.square,
+                                                color: Color(0xFFFDBE00),
+                                                size: 30,
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  resources.name,
+                                                  style:
+                                                      TextStyle(fontSize: 22),
+                                                ),
+                                              ),
+                                              Icon(
+                                                LineIcons.playCircle,
+                                                size: 35,
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                    );
+                                  } else if (state is ErrorR) {
+                                    print(state.error);
+                                    return Center(
+                                      child: Text(state.error,
+                                          style: const TextStyle(
+                                              color: Colors.red)),
+                                    );
+                                  } else {
+                                    return Container();
                                   }
-                                } else if (state is Error) {
-                                  print(state.error);
-                                  return Center(
-                                      // child: Text(state.error,
-                                      //     style: const TextStyle(color: Colors.red)),
+                                }),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 20, bottom: 20),
+                                child: BlocBuilder<ResourceBloc, ResourceState>(
+                                    builder: (context, state) {
+                                  if (state is LoadingR) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else if (state is LoadedR) {
+                                    List<Resource> allResources =
+                                        state.resources;
+                                    List<Resource> infoResources = allResources
+                                        .where((lesson) =>
+                                            lesson.resource_type == "capsula")
+                                        .toList();
+                                    return Column(
+                                      children: infoResources.map((resources) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        InfoResourcesPage(
+                                                            arg: resources)));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                LineIcons.square,
+                                                color: Color(0xFFFDBE00),
+                                                size: 30,
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  resources.name,
+                                                  style:
+                                                      TextStyle(fontSize: 22),
+                                                ),
+                                              ),
+                                              Icon(
+                                                LineIcons.infoCircle,
+                                                size: 35,
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                    );
+                                  } else if (state is ErrorR) {
+                                    print(state.error);
+                                    return Center(
+                                      child: Text(state.error,
+                                          style: const TextStyle(
+                                              color: Colors.red)),
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                }),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 20, bottom: 20),
+                                child: BlocBuilder<PracticeBloc, PracticeState>(
+                                    builder: (context, state) {
+                                  if (state is LoadingP) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else if (state is LoadedP) {
+                                    return Column(
+                                      children:
+                                          state.practices.map((practices) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PracticePage(
+                                                            arg: practices)));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                LineIcons.square,
+                                                color: Color(0xFFFDBE00),
+                                                size: 30,
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  "Tocar acorde: " +
+                                                      practices.acordeATocar,
+                                                  style:
+                                                      TextStyle(fontSize: 22),
+                                                ),
+                                              ),
+                                              Icon(
+                                                LineIcons.playCircle,
+                                                size: 35,
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                    );
+                                  } else if (state is ErrorP) {
+                                    print(state.error);
+                                    return Center(
+                                      child: Text(state.error,
+                                          style: const TextStyle(
+                                              color: Colors.red)),
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                }),
+                              ),
+                              // SEPARADOR
+                              // Row(
+                              //   children: [
+                              //     Icon(
+                              //       LineIcons.square,
+                              //       color: Color(0xFFFDBE00),
+                              //       size: 30,
+                              //     ),
+                              //     SizedBox(
+                              //       width: 20,
+                              //     ),
+                              //     Text(
+                              //       'Ejercicio',
+                              //       style: TextStyle(fontSize: 24),
+                              //     ),
+                              //     Expanded(child: SizedBox()),
+                              //     Icon(
+                              //       LineIcons.music,
+                              //       size: 35,
+                              //     )
+                              //   ],
+                              // ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 20, bottom: 20),
+                                child: BlocBuilder<ExerciseBloc, ExerciseState>(
+                                    builder: (context, state) {
+                                  if (state is Loading) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else if (state is Loaded) {
+                                    if (state.exercises.length == 0) {
+                                      return Container();
+                                    } else {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          print('hola');
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ExercisesPage2(
+                                                          arg: state
+                                                              .exercises[0])));
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              LineIcons.square,
+                                              color: Color(0xFFFDBE00),
+                                              size: 30,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                'Preguntas',
+                                                style: TextStyle(fontSize: 22),
+                                              ),
+                                            ),
+                                            Icon(
+                                              LineIcons.questionCircle,
+                                              size: 35,
+                                            )
+                                          ],
+                                        ),
                                       );
-                                } else {
-                                  return Container();
-                                }
-                              }),
-                            ),
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => audio()));
-                            //   },
-                            //   child: Text('heya'),
-                            // )
-                          ],
+                                    }
+                                  } else if (state is Error) {
+                                    print(state.error);
+                                    return Center(
+                                        // child: Text(state.error,
+                                        //     style: const TextStyle(color: Colors.red)),
+                                        );
+                                  } else {
+                                    return Container();
+                                  }
+                                }),
+                              ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) => audio()));
+                              //   },
+                              //   child: Text('heya'),
+                              // )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

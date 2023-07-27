@@ -22,6 +22,7 @@ class _PracticePageState extends State<PracticePage> {
   final recorder = FlutterSoundRecorder();
   bool isTrue = false;
   bool isRecorderReady = false;
+  bool sended = false;
   late File audiopath;
   @override
   void initState() {
@@ -100,6 +101,7 @@ class _PracticePageState extends State<PracticePage> {
           setState(() {
             switchText = 'Vuelva a intentarlo';
             isTrue = false;
+            sended = true;
           });
         }
       } else {
