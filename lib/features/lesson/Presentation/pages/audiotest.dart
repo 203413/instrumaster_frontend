@@ -72,14 +72,6 @@ class _audioState extends State<audio> {
       File audioFile = File(recordingPath);
       List<int> bytes = await audioFile.readAsBytes();
       String base64Audio = base64Encode(bytes);
-
-      // Map<String, String> headers = {
-      //   'Content-Type': 'audio/wav',
-      // };
-
-      // Map<String, dynamic> data = {
-      //   'wav_file': base64Audio,
-      // };
       print('hola1');
       final formData = FormData.fromMap({
         'wav_file': MultipartFile.fromBytes(

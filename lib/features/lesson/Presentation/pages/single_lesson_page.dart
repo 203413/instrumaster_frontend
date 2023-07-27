@@ -10,6 +10,8 @@ import 'package:line_icons/line_icons.dart';
 import '../../../exercises/Presentation/bloc/exercise_bloc.dart';
 import '../../../exercises/Presentation/pages/tests_exercises.dart';
 import '../../../lesson/Presentation/widgets/bnavigationbar.dart';
+import '../../../practices/Presentation/bloc/practice_bloc.dart';
+import '../../../practices/Presentation/pages/practice_page.dart';
 import '../../../resources/Presentation/pages/info_resource_page.dart';
 import '../../../resources/Presentation/pages/video_resource_page.dart';
 import '../../Domain/entities/lesson.dart';
@@ -30,6 +32,9 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
         .add(GetResourceByLessonID(id_lesson: widget.arg.id));
     BlocProvider.of<ExerciseBloc>(context)
         .add(GetExercisesByLessonID(id_lesson: widget.arg.id));
+    super.initState();
+    BlocProvider.of<PracticeBloc>(context)
+        .add(GetPracticeByLessonID(id_lesson: widget.arg.id));
     super.initState();
   }
 
@@ -208,6 +213,66 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
                                 }
                               }),
                             ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 20),
+                              child: BlocBuilder<PracticeBloc, PracticeState>(
+                                  builder: (context, state) {
+                                if (state is LoadingP) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (state is LoadedP) {
+                                  return Column(
+                                    children: state.practices.map((practices) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PracticePage(
+                                                          arg: practices)));
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              LineIcons.square,
+                                              color: Color(0xFFFDBE00),
+                                              size: 30,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                "Tocar acorde: " +
+                                                    practices.acordeATocar,
+                                                style: TextStyle(fontSize: 22),
+                                              ),
+                                            ),
+                                            Icon(
+                                              LineIcons.playCircle,
+                                              size: 35,
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                } else if (state is ErrorP) {
+                                  print(state.error);
+                                  return Center(
+                                    child: Text(state.error,
+                                        style:
+                                            const TextStyle(color: Colors.red)),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              }),
+                            ),
+                            // SEPARADOR
                             // Row(
                             //   children: [
                             //     Icon(
@@ -239,50 +304,44 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
                                     child: CircularProgressIndicator(),
                                   );
                                 } else if (state is Loaded) {
-                                  return Column(
-                                    children:
-                                        state.exercises.map((modexercises) {
-                                      if (state.exercises.length == 0) {
-                                        return Container();
-                                      } else {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            print('hola');
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ExercisesPage2(
-                                                            arg:
-                                                                modexercises)));
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                LineIcons.square,
-                                                color: Color(0xFFFDBE00),
-                                                size: 30,
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  'Preguntas',
-                                                  style:
-                                                      TextStyle(fontSize: 22),
-                                                ),
-                                              ),
-                                              Icon(
-                                                LineIcons.questionCircle,
-                                                size: 35,
-                                              )
-                                            ],
+                                  if (state.exercises.length == 0) {
+                                    return Container();
+                                  } else {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        print('hola');
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ExercisesPage2(
+                                                        arg: state
+                                                            .exercises[0])));
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            LineIcons.square,
+                                            color: Color(0xFFFDBE00),
+                                            size: 30,
                                           ),
-                                        );
-                                      }
-                                    }).toList(),
-                                  );
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              'Preguntas',
+                                              style: TextStyle(fontSize: 22),
+                                            ),
+                                          ),
+                                          Icon(
+                                            LineIcons.questionCircle,
+                                            size: 35,
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }
                                 } else if (state is Error) {
                                   print(state.error);
                                   return Center(
@@ -294,15 +353,15 @@ class _SingleLessonPageState extends State<SingleLessonPage> {
                                 }
                               }),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => audio()));
-                              },
-                              child: Text('heya'),
-                            )
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) => audio()));
+                            //   },
+                            //   child: Text('heya'),
+                            // )
                           ],
                         ),
                       ),

@@ -11,6 +11,9 @@ import 'features/exercises/Data/repositories/exercise_repository_impl.dart';
 import 'features/exercises/Domain/usecases/get_exercisebylid_usecase.dart';
 import 'features/exercises/Domain/usecases/get_fouranswerbyeid_usecase.dart';
 import 'features/lesson/Domain/usecases/get_lessonsbycid_usecase.dart';
+import 'features/practices/Data/datasources/practices_remote_Datasource.dart';
+import 'features/practices/Data/repositories/practices_repository_impl.dart';
+import 'features/practices/Domain/usecases/get_practicebylid_usecase.dart';
 import 'features/users/Domain/usecase/get_progressByUId_usecase.dart';
 import 'features/users/Domain/usecase/register_usecase.dart';
 import 'features/users/Domain/usecase/view_profile.dart';
@@ -47,6 +50,10 @@ class UsecaseConfig {
   ResourceRemoteDataSourceImp? resourceRemoteDataSourceImp;
   GetProgressByUId? getProgressByUId;
 
+  GetPracticeByLIdUsecase? getPracticeByLIdUsecase;
+  PracticeRepositoryImpl? practiceRepositoryImpl;
+  PracticeRemoteDataSourceImp? practiceRemoteDataSourceImp;
+
   UsecaseConfig() {
     courseRemoteDataSourceImp = CourseRemoteDataSourceImp();
     courseRepositoryImpl = CourseRepositoryImpl(
@@ -80,5 +87,10 @@ class UsecaseConfig {
     resourceRepositoryImpl = ResourceRepositoryImpl(
         resourceRemoteDataSource: resourceRemoteDataSourceImp!);
     getResourceByLIdUsecase = GetResourceByLIdUsecase(resourceRepositoryImpl!);
+
+    practiceRemoteDataSourceImp = PracticeRemoteDataSourceImp();
+    practiceRepositoryImpl = PracticeRepositoryImpl(
+        practiceRemoteDataSource: practiceRemoteDataSourceImp!);
+    getPracticeByLIdUsecase = GetPracticeByLIdUsecase(practiceRepositoryImpl!);
   }
 }

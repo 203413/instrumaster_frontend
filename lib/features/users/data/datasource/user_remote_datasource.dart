@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:instrumaster_v1/features/users/Data/models/profile_model.dart';
 import 'package:instrumaster_v1/features/users/Data/models/progress_model.dart';
 import 'package:instrumaster_v1/features/users/Domain/entities/authentication.dart';
@@ -78,7 +80,8 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
       print('Datos de perfil recibidos');
       //List<Map<String, dynamic>> resultlist = [];
       var jsonResponse = convert.jsonDecode(response.body);
-      var results = jsonResponse;;
+      var results = jsonResponse;
+      ;
       if (results == null) {
         print('datos nulso');
       }
@@ -121,7 +124,7 @@ class UserRemoteDataSourceImp extends UserRemoteDataSource {
         return ProgressModel(
           id: result['id'],
           id_course: result['id_course'],
-          course_name: result['course_name'],
+          course_name: utf8.decode(result['course_name'].codeUnits),
           level: result['level'],
           stars: result['stars'],
           user: result['user'],

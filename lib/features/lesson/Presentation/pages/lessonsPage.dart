@@ -24,6 +24,10 @@ class _LessonsPageState extends State<LessonsPage> {
   @override
   void initState() {
     super.initState();
+    inicio();
+  }
+
+  void inicio() {
     BlocProvider.of<LessonsBloc>(context)
         .add(GetLessonsByCourseID(id_lesson: widget.arg));
     // context
@@ -146,7 +150,9 @@ class _LessonsPageState extends State<LessonsPage> {
         } else if (state is Error) {
           print(state.error);
           return Center(
-            child: Text('Todavia no hay lecciones para este curso, vuelva pronto', style: const TextStyle(color: Color(0xFFFDBE00))),
+            child: Text(
+                'Todavia no hay lecciones para este curso, vuelva pronto',
+                style: const TextStyle(color: Color(0xFFFDBE00))),
           );
         } else {
           return Container();
@@ -208,11 +214,17 @@ class _LessonsPageState extends State<LessonsPage> {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) =>
+                //             SingleLessonPage(arg: lessons[index])));
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SingleLessonPage(arg: lessons[index])));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SingleLessonPage(arg: lessons[index])),
+                ).then((value) => inicio());
               },
               child: Column(
                 children: [

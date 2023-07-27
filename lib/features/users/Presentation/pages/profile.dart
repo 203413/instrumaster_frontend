@@ -22,9 +22,6 @@ class _ExercisesPageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-
-    // final int? user_id = prefs.getInt('user_id');
-    // BlocProvider.of<UserBloc>(context).add(GetByUsername(userId: user_id!));
     initializePreferences();
   }
 
@@ -160,15 +157,26 @@ class _ExercisesPageState extends State<ProfilePage> {
                                                     .getInstance();
                                             await prefs.setInt("idprogress",
                                                 state.progress[index].id);
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) =>
+                                            //             LessonsPage(
+                                            //                 arg: state
+                                            //                     .progress[index]
+                                            //                     .id_course
+                                            //                     .toString())));
                                             Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        LessonsPage(
-                                                            arg: state
-                                                                .progress[index]
-                                                                .id_course
-                                                                .toString())));
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LessonsPage(
+                                                          arg: state
+                                                              .progress[index]
+                                                              .id_course
+                                                              .toString())),
+                                            ).then((value) =>
+                                                initializePreferences());
                                           },
                                           child: Column(
                                             children: [
@@ -213,11 +221,16 @@ class _ExercisesPageState extends State<ProfilePage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             CoursesPage()));
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CoursesPage()));
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CoursesPage()),
+                                    ).then((value) => initializePreferences());
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 30),

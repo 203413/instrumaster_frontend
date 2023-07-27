@@ -10,6 +10,7 @@ import 'package:instrumaster_v1/onboarding/pages/onboarding.dart';
 import 'package:instrumaster_v1/usecaseconfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/practices/Presentation/bloc/practice_bloc.dart';
 import 'features/resources/Presentation/bloc/resources_bloc.dart';
 import 'features/users/Presentation/pages/profile.dart';
 
@@ -53,9 +54,15 @@ class MyApp extends StatelessWidget {
           BlocProvider<ProgressBloc>(
               create: (BuildContext context) => ProgressBloc(
                   getProgressByUId: usecaseConfig.getProgressByUId!)),
+          BlocProvider<PracticeBloc>(
+              create: (BuildContext context) => PracticeBloc(
+                  getPracticeByLIdUsecase:
+                      usecaseConfig.getPracticeByLIdUsecase!)),
         ],
-        child:
-             MaterialApp(debugShowCheckedModeBanner: false,theme: ThemeData(fontFamily: 'Readex Pro'), home: Home()));
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(fontFamily: 'Readex Pro'),
+            home: Home()));
   }
 }
 

@@ -23,6 +23,8 @@ class _ExercisesPage2State extends State<ExercisesPage2> {
   bool areEqual = false;
   late List<String> selectedOptions =
       []; // Lista para almacenar las opciones seleccionadas
+  Color switchColor = Colors.black;
+  String switchText = 'Verificar respuestas';
 
   bool printSelectedOption(String selectedOption, List<Answer> aux) {
     //print(selectedOption);
@@ -122,15 +124,21 @@ class _ExercisesPage2State extends State<ExercisesPage2> {
                     onPressed: () {
                       checkEquality(state.exercises);
                       print(Correctones.toString() + "/" + Size.toString());
+                      if (areEqual == true) {
+                        setState(() {
+                          switchColor = Colors.green;
+                          switchText = 'Correcto';
+                        });
+                      } else {
+                        setState(() {
+                          switchColor = Colors.red;
+                          switchText = 'Respuestas incorrectas';
+                        });
+                      }
                     },
-                    style: ButtonStyle(
-                      backgroundColor: areEqual
-                          ? MaterialStateProperty.all<Color>(
-                              Colors.green) // Color cuando son iguales
-                          : MaterialStateProperty.all<Color>(
-                              Colors.blue), // Color por defecto
-                    ),
-                    child: Text(areEqual ? 'Correcto' : 'Verificar respuestas'),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: switchColor),
+                    child: Text(switchText),
                   ),
                 ],
               ),
